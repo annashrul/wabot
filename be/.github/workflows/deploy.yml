@@ -1,0 +1,26 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PRODUCTION_SERVER_HOST }}
+          port: ${{ secrets.PRODUCTION_SERVER_PORT }}
+          username: ${{ secrets.PRODUCTION_SERVER_USERNAME }}
+          key: ${{ secrets.PRODUCTION_SERVER_KEY }}
+          script: |
+            cd ${{ secrets.PRODUCTION_SERVER_DIR }}
+            git pull origin master
+            docker exec ${{ secrets.PRODUCTION_CONTAINER_NAME }} composer install
+            docker exec ${{ secrets.PRODUCTION_CONTAINER_NAME }} php artisan migrate
+            docker exec ${{ secrets.PRODUCTION_CONTAINER_NAME }} php artisan optimize

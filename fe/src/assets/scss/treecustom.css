@@ -1,0 +1,106 @@
+.graph {
+  /* width: calc(99vw - 20px); */
+  top: 2px;
+  position: absolute;
+  height: calc(99vh - 20px);
+  margin: 10px;
+  box-sizing: border-box;
+  border: 1px dotted gray;
+}
+
+.graph-legion {
+  z-index: 5;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  /* width: 200px; */
+  padding: 5px;
+  background: #ffffff8f;
+}
+
+.graph-legion ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.graph-legion ul li {
+  padding: 7px 2px;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 10px;
+  color: black;
+  font-weight: bold;
+  border: 1px solid gray;
+  margin: 2px;
+  background: white;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.graph-legion ul li span {
+  display: inline-block;
+  height: 12px;
+  width: 130px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.graph-legion ul li .color-palette {
+  height: 20px;
+  width: 50px;
+  display: inline-block;
+  border-radius: 3px;
+  margin: 0 5px;
+}
+
+.elemental-node {
+  font-size: 19px;
+  box-sizing: border-box;
+  color: black;
+  padding: 4px 5px;
+  border-radius: 10px;
+  height: 50px;
+  /* width: 210px; */
+  font-weight: bold;
+  /* text-align: center; */
+  border: 1px solid black;
+  /* display: flex; */
+  align-items: center;
+  /* justify-content: center; */
+  margin: 35px 0;
+}
+/* .elemental-node--hover {
+  display: none;
+  position: absolute;
+  background: black;
+  padding: 5px;
+  left: 20px;
+  top: 0;
+  width: max-content;
+  height: 20px;
+  z-index: 99;
+} */
+/* .elemental-node:hover {
+  filter: brightness(120%);
+}
+.elemental-node:hover .elemental-node--hover {
+  display: block;
+} */
+
+.rd3t-link {
+  fill: none;
+  stroke: rgb(8, 52, 66);
+  stroke-width: 2px;
+}
+
+.textt{
+  margin-bottom: 10px;
+}
+
+.box {
+  /* border: 0.5px solid gray; */
+  padding: 10px;
+  border-radius: 15px;
+}

@@ -1,0 +1,42 @@
+.history-badge {
+    padding: .4rem .6rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 500;
+
+    &.text-badge {
+        background-color: #FFE9D6;
+        color: #FF7400;
+    }
+
+    &.media-badge {
+        background-color: #D6EAFF;
+        color: #007BFF;
+    }
+
+    &.variable-badge {
+        background-color: #FFE5F1;
+        color: #FF0075;
+    }
+
+    &.green-badge {
+        background-color: #DEF7E4;
+        color: #1DC042;
+    }
+}
+
+.text-dark-soft {
+    color: rgba(73, 80, 87, .8);
+}
+
+.media-link {
+    width: calc(100% - 1.5rem);
+    cursor: pointer;
+    font-size: 14px!important;
+    letter-spacing: normal;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

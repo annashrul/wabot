@@ -1,0 +1,22 @@
+.rule-badge {
+    padding: .4rem .6rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 500;
+
+    &.group-badge {
+        background-color: #FFE9D6;
+        color: #FF7400;
+    }
+
+    &.contact-badge {
+        background-color: #D6EAFF;
+        color: #007BFF;
+    }
+
+    &.default-badge {
+        background-color: #FFE5F1;
+        color: #FF0075;
+    }
+}

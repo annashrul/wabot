@@ -1,0 +1,81 @@
+[
+    {
+        "name": "Dashboard",
+        "icon": "Activity",
+        "show": false,
+        "path": "/",
+        "child": []
+    },
+    {
+        "name": "Device Session",
+        "icon": "Smartphone",
+        "show": false,
+        "path": "/sessions",
+        "child": []
+    },
+    {
+        "name": "Contact and Group",
+        "icon": "Users",
+        "show": false,
+        "path": "/contact",
+        "child": []
+    },
+    {
+        "name": "Message",
+        "icon": "Send",
+        "show": true,
+        "path": "/",
+        "child": [
+            {
+                "name": "Send Message",
+                "path": "/message"
+            },
+            {
+                "name": "Send Variable Message",
+                "path": "/message/csv"
+            },
+            {
+                "name": "Message Schedule",
+                "path": "/message/schedule"
+            },
+            {
+                "name": "Message History",
+                "path": "/message/history"
+            },
+            {
+                "name": "API Documentation",
+                "path": "/message/api"
+            }
+        ]
+    },
+    {
+        "name": "Chatbot",
+        "icon": "GitPullRequest",
+        "show": false,
+        "path": "/chatbot",
+        "child": []
+    },
+    {
+        "name": "Node",
+        "icon": "Send",
+        "show": true,
+        "path": "/",
+        "child": [
+            {
+                "name": "Form Node",
+                "path": "/node/form"
+            },
+            {
+                "name": "API Node",
+                "path": "/node/api"
+            }
+        ]
+    },
+    {
+        "name": "Support",
+        "icon": "HelpCircle",
+        "show": false,
+        "path": "/support",
+        "child": []
+    }
+]

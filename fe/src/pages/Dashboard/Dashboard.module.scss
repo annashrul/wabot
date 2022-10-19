@@ -1,0 +1,109 @@
+.btnBg {
+    padding: 0!important;
+    width: 2.5rem!important;
+    height: 2.5rem!important;
+    font-size: 1.5rem!important;
+
+    display: flex!important;
+    align-items: center!important;
+    justify-content: center!important;
+
+    cursor: pointer!important;
+    border-radius: 100%!important;
+
+    background: rgba(256,256,256,0.25)!important;
+    color: white!important;
+
+    &:hover {
+        background: rgba(256,256,256,0.15)!important;
+    }
+}
+
+.dropdownSelect {
+    select {
+      background-color: rgba(#7366ff, 0.08) !important;
+      border: none;
+      color: var(--theme-deafult) !important;
+      width: auto !important;
+      height: 32px !important;
+      border-radius: 10px;
+      padding: 5px 10px;
+      line-height: 50px !important;
+      font-weight: 500;
+      border: none;
+      outline: none !important;
+      margin-top: -2px;
+
+      &:hover {
+        background-color: rgba(#7366ff, 0.08) !important;
+        color: var(--theme-deafult) !important;
+      }
+    }
+}
+
+.media {
+    display: flex;
+    align-items: flex-start;
+
+    .mediaLeft {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background-color: var(--theme-deafult);
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+
+        i {
+            font-size: 18px;
+            transition: 0.3s all linear;
+        }
+
+        &:hover {
+            animation: 1.5s ease infinite;
+        }
+    }
+
+    .mediaBody {        
+        p {
+            margin-bottom: 0;
+            margin-top: -1px;
+            font-size: 14px;
+        }
+    }
+}
+
+.cardIcon {
+    position: absolute;
+    right: -40px;
+    bottom: -40px;
+    opacity: 0.2;
+}
+
+.dot {
+    border-radius: 100%;
+
+    border: 5.5px solid #f3cbd0;
+    background:#dc3545;
+
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 6px;
+
+    &.online {
+        border: 5.5px solid #b6eec3;
+        background:#28a745;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .tableResponsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

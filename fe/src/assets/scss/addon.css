@@ -1,0 +1,73 @@
+.quota-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.quota-title {
+    font-size: 14px;
+    font-weight: 500;
+
+    margin-bottom: 0;
+}
+
+.quota-value {
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    margin-top: -6px;
+}
+
+.quota-alert {
+    border-radius: 12px!important;
+    background-color: rgba(115,102,255,.08)!important;
+    color: #7366ff!important;
+    padding-top: 8px!important;
+    padding-bottom: 8px!important;
+    cursor: pointer;
+}
+
+.quota-alert:hover {
+    background-color: rgba(115,102,255,.2)!important;
+}
+
+.custom-select.sync {
+    background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%237366ff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") right 0.75rem center/8px 10px no-repeat;
+    background-color: rgba(115,102,255,.08);
+    color: #7366ff;
+    border: 0;
+    cursor: pointer;
+}
+
+.custom-select.sync:focus {
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+}
+
+.custom-select.sync option:disabled {
+    color: #7366ff!important;
+}
+
+.input-icon-add{
+    position: absolute;
+    right: .6rem;
+    top: 9px;
+    color: #495057;
+}
+
+.form-group .form-label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 992px) {
+    .responsive-table {
+        display: block!important;
+        width: 100%!important;
+        overflow-x: auto!important;
+    }
+
+    .responsive-table .dropdown {
+        position: static!important;
+    }
+}

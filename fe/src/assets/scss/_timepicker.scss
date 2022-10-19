@@ -1,0 +1,43 @@
+.time-box {
+    position: absolute!important;
+    background-color: white!important;
+    border: 1px solid lightgray!important;
+    border-radius: 4px!important;
+    z-index: 6!important;
+    margin-top: 0!important;
+    height: 10.5rem!important;
+    display: flex!important;
+    padding: .5rem!important;
+
+    .time-scroll {
+        width: 3rem;
+        overflow-y: scroll;
+
+        .time-value {
+            padding: .5rem;
+            text-align: center;
+            border-radius: 4px;
+
+            &:hover:not(.time-selected) {
+                background-color: rgba(#7366ff, .25);
+                cursor: pointer;
+            }
+
+            &.time-selected {
+                background-color: #7366ff;
+                color: white;
+            }
+        }
+
+        /* Hide Scrollbar */
+        &::-webkit-scrollbar { display: none; }
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+.text-placeholder {
+    &::placeholder {
+        color: #495057!important;
+    }
+}

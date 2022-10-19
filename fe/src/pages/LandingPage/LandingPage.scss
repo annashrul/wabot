@@ -1,0 +1,349 @@
+$black: #292929;
+$primary: #7366FF;
+$primary-soft: #F4F3FF;
+
+html {
+    scroll-behavior: smooth;
+}
+
+.lp-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.lp-pre-subtitle {
+    font-weight: 500;
+    color: $primary;
+    margin-bottom: 8px;
+}
+
+.lp-title {
+    margin-bottom: 10px;
+}
+
+.lp-subtitle {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba($black, .75);
+}
+
+.box-icon {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    background-color: $primary-soft;
+    color: $primary;
+    font-weight: 500;
+}
+
+.box-text {
+    font-size: 1rem;
+    color: rgba($black, .75);
+}
+
+#lp-nav {
+    height: 4rem;
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    z-index: 2000;
+
+    background-color: white;
+
+    .lp-container {
+        height: 100%;
+        
+        nav {
+            height: 100%;
+
+            .lp-brand {
+                font-size: 1.25rem;
+                font-weight: 500;
+
+                color: $black;
+            }
+
+            li {
+                margin-right: 2rem;
+
+                a {
+                    font-weight: 500;
+                    color: rgba($black, .25);
+                }
+
+                &.active a, a:hover {
+                    color: $primary;
+                }
+                
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    &.lp-shadow {
+        box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.1);
+    }
+}
+
+#hero {
+    padding-top: 64px;
+    padding-bottom: 4rem;
+
+    .lp-hero-text {
+        .lp-hero-title {
+            margin-bottom: 1rem;
+        }
+
+        .lp-hero-subtitle {
+            font-size: 15px;
+            line-height: 180%;
+            margin-bottom: 1.25rem;
+        }
+    }
+}
+
+#feature {
+    padding-top: 4.5rem;
+    padding-bottom: 3rem;
+    background-color: #F8F8F8;
+
+    .feature-icon {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: .75rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: .5rem;
+
+        background-color: $primary-soft;
+        color: $primary;
+
+    }
+
+    .feature-title {
+        font-size: 20px;
+    }
+    .feature-subtitle {
+        line-height: 150%;
+        color: rgba($black, .75);
+    }
+}
+
+#chatbot {
+    .lp-container {
+        position: relative;
+        padding-top: 8rem;
+        padding-bottom: 6rem;
+    }
+
+    li {
+        margin-bottom: .75rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .lp-section-bg {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        right: -4rem;
+    }
+}
+
+#howitworks {
+    .lp-container {
+        position: relative;
+        padding-top: 8rem;
+        padding-bottom: 6rem;
+        margin-bottom: 5.5rem;
+    }
+
+    li {
+        margin-bottom: .75rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .lp-section-bg {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        left: -3.25rem;
+    }
+}
+
+#getstarted {
+    .lp-started-box {
+        border-radius: 1rem;
+        background-color: $primary;
+        padding: 4rem 0;
+        text-align: center;
+    }
+    
+    .lp-getstarted {
+        color: white;
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        div {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(#fff, .75);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background-color: white;
+            color: $primary;
+            font-weight: 500;
+
+            &:hover {
+                background-color: #f0effd;
+            }
+        }
+    }
+}
+
+#contact {
+    padding: 4rem 0;
+
+    .lp-brand {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: $black;
+        margin-right: auto;
+    }
+
+    .lp-subbrand {
+        font-weight: 500;
+        color: $primary;
+        margin-right: 1.75rem;
+    }
+
+    .lp-brand-url {
+        margin-right: 1.75rem;
+    }
+
+    .lp-up {
+        color: $primary;
+        opacity: .75;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #lp-nav {
+        li {
+            display: none;
+
+            &:last-of-type {
+                display: block;
+            }
+        }
+    }
+
+    #hero {
+        text-align: center;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    #chatbot {
+        text-align: center;
+
+        .lp-container {
+            padding-bottom: 3rem;
+        }
+
+        .col-md-7 img {
+            padding-top: 3rem;
+            width: 80%;
+        }
+
+        .lp-section-bg {
+            right: -50%;
+            left: -50%;
+            width: 100%;
+            top: initial;
+            margin: auto;
+        }
+    }
+
+    #howitworks {
+        text-align: center;
+
+        .lp-container {
+            padding-top: 5rem;
+            padding-bottom: 5.5rem;
+        }
+
+        .col-md-7 img {
+            padding-top: 7.5rem;
+            width: 100%;
+        }
+
+        .lp-section-bg {
+            right: -50%;
+            left: -50%;
+            width: 100%;
+            top: initial;
+            margin: auto;
+        }
+    }
+
+    #getstarted {        
+        .lp-started-box {
+            padding: 3rem 3.5rem;
+        }
+    }
+
+    #contact {
+        padding: 4rem 0;
+
+        .lp-container {
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .lp-brand {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+
+        .lp-subbrand {
+            font-size: 1rem;
+            margin-right: 0;
+            margin-bottom: .25rem;
+        }
+
+        .lp-brand-url {
+            font-size: 1rem;
+            margin-right: 0;
+        }
+
+        .lp-up {
+            margin-top: 1.5rem;
+        }
+    }
+}
