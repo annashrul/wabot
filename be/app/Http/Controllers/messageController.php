@@ -368,7 +368,7 @@ class messageController extends Controller
                     'message'   => count($vaksin)>0?$pesan:$nextnode->data[0]->response,
                     'type'      => $target,
                 ]);
-                $exp=explode('+',$nextnode->data[0]->response);
+                $exp=explode('+',count($vaksin)>0?$pesan:$nextnode->data[0]->response);
             }
             $cek=[];
             for($i=0;$i<count($exp);$i++){
