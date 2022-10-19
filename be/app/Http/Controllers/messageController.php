@@ -2077,32 +2077,35 @@ class messageController extends Controller
         $buttons=[];
         $link='https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message';
         $newMsg=$request->message;
+//        $urlArr=[];
         if(count($url)>0){
             $link='https://wabot.pesanku.id/wa-md/'.$getDevice->data[0]->uid.'/send-message-custom';
             for($i=0;$i<count($url);$i++){
                 for($j=0;$j<count($url[$i]);$j++){
                     $urlArr = explode("-",$url[$i][$j]);
-                    $buttonsName = explode(",",$urlArr[1]);
-
-                    for($x=0;$x<count($buttonsName);$x++){
-                        $buttons[]=[
-                            "index"=>$j+1,
-                            "urlButton"=>[
-                                "displayText"=>$buttonsName[$x],
-                                "url"=>$urlArr[$x]
-                            ]
-                        ];
+                    if(count($urlArr) > 0){
+                        $buttonsName = explode(",",$urlArr[0]);
+                        for($x=0;$x<count($buttonsName);$x++){
+                            $buttons[]=[
+                                "index"=>$j+1,
+                                "urlButton"=>[
+                                    "displayText"=>$buttonsName[$x],
+                                    "url"=>$urlArr[$x]
+                                ]
+                            ];
+                        }
+                        $newMsg= str_replace($url[$i][$j],"",$newMsg);
                     }
-                    $newMsg= str_replace($url[$i][$j],"",$newMsg);
+
                 }
             }
-
             $data['message'] = [
                 'text'=>$newMsg,
                 'templateButtons'=>$buttons,
                 "headerType"=>1,
             ];
         }
+
         $response = Http::post($link, $data);
         if ($response->successful()) {
             return response()->json([
