@@ -143,7 +143,7 @@ class Diagram extends Component {
     for (let [key, value] of data.entries()) {
       Object.assign(field, { [key]: value });
     }
-    this.setState({ isLoading: false }, () => {
+    this.setState({ isLoading: true }, () => {
       let body = new URLSearchParams({
         title: field.title,
         response: field.response,
