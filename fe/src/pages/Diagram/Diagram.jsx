@@ -25,11 +25,15 @@ class Diagram extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loadingTitle:"loading ..",
       isLoading: false,
       currentNode: null,
       parrentNode: null,
       isModal:false,
       isAdd:true,
+      isFirst:false,
+      isPrev:false,
+      alur:"",
       dataTree: [
         {
           id: "1",
@@ -58,12 +62,15 @@ class Diagram extends Component {
       isZoomOut: true,
       timer: 0,
       rule: [],
+      id_currentNode:"",
+      id_nextNode:""
     };
     this.convertArrayFlatToTree = this.convertArrayFlatToTree.bind(this);
     this.handleZoom = this.handleZoom.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.retrieveEformNode = this.retrieveEformNode.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
   convertArrayFlatToTree(list) {
     var map = {},
@@ -102,19 +109,18 @@ class Diagram extends Component {
   }
   retrieveEformNode() {
     NodeAPI.getEformNode(this.state.rule.id_device).then((result) => {
-          let FormIsi = [];
-          if (result.status === 200) {
-            FormIsi = result.data;
-          }
-          this.setState({
-            isLoading: false,
-            FormIsi,
-          });
+        let FormIsi = [];
+        if (result.status === 200) {
+          FormIsi = result.data;
+        }
+        this.setState({
+          isLoading: false,
+          FormIsi,
         });
+      });
   }
   retrieveAPINode() {
     this.setState({isLoading:true},()=>{
-      console.log("this.state.rule",this.state.rule)
       NodeAPI.getAPINode(this.state.rule.id_device).then((result) => {
           let apiData = [];
           if (result.status === 200) {
@@ -132,100 +138,112 @@ class Diagram extends Component {
     const col = target.name;
     const val = target.value;
     let state = {};
+  
     if (type === "checkbox") {
       state["isTrigger"] = target.checked;
     } else {
       state[col] = val;
     }
-    this.setState(state);
+    this.setState(state,()=>{
+      if(col==="alur"){
+        if(val === "0"){
+          this.setState({title:"Kembali ke menu sebelumnya",id_nextNode:this.state.parrentNode.id_nextNode,key:"0"})
+        }
+        else if(val === "99"){
+          this.setState({title:"Kembali ke menu awal",id_nextNode:2,key:"99"})
+        }
+        else {
+          this.setState({title:"",id_nextNode:"",key:""})
+        }
+      }
+    });
   }
   handleSubmit(e) {
     e.preventDefault();
-    if(this.state.title!==""){
-      const data = new FormData(e.currentTarget);
-      let field = {};
-      for (let [key, value] of data.entries()) {
-        Object.assign(field, { [key]: value });
-      }
-      if(this.state.isAdd){
-        this.setState({ isLoading: true }, () => {
-          let body = new URLSearchParams({
-            title: field.title,
-            response: field.response,
-          });
-          NodeAPI.createFe(body).then((result) => {
-            let bodys = new URLSearchParams({
-              id_rule: parseInt(this.props.match.params.id),
-              id_currentNode: parseInt(this.state.currentNode.id_nextNode),
-              id_nextNode: parseInt(result.data),
-              type: field.tipe,
-              key: field.key,
-              title: field.title,
+    const data = new FormData(e.currentTarget);
+    let field = {};
+    for (let [key, value] of data.entries()) {
+      Object.assign(field, { [key]: value });
+    }
+    if(field.alur!==''){
+      let fieldBack=new URLSearchParams({
+        id_rule: parseInt(this.props.match.params.id),
+        id_currentNode:field.id_currentNode,
+        id_nextNode:this.state.id_nextNode,
+        type:'default',
+        key:field.alur,
+        title:field.title,
+      });
+      this.setState({isLoading:true},()=>{
+        NodeAPI.createPathDefaultFe(fieldBack).then((result) => {
+          this.handleCloseModal(null,()=>{
+            this.fetchNow();
+            toast.success(`Chatbot Path Created Succesfully`, {
+              position: toast.POSITION.TOP_CENTER,
+            },()=>{
+              console.log("done")
             });
-            
-            NodeAPI.createPathDefaultFe(bodys).then((result) => {
-              this.setState(
-                {
-                  title: "",
-                  tipe: "",
-                  isTrigger: false,
-                  key: "",
-                  response: "",
-                  isModal:false,
-                  isLoading:false
-                },
-                () => {
-                  this.fetchNow();
-                  $("#modal-create").modal("hide");
-                  toast.success(`Chatbot Path Created Succesfully`, {
-                    position: toast.POSITION.TOP_CENTER,
-                  });
-                }
-              );
-            });
-          });
-        });
-      }else{
-        this.setState({isLoading:false},()=>{
-          let bodyNode = new URLSearchParams({
-            title: field.title,
-            response: field.response,
-            id:this.state.currentNode.id_nextNode,
-            id_path:this.state.currentNode.id
-          });
-          NodeAPI.updateFe(bodyNode).then((result)=>{
-            this.setState(
-                {
-                  title: "",
-                  tipe: "",
-                  isTrigger: false,
-                  key: "",
-                  response: "",
-                  isModal:false,
-                  isLoading:false,
-                  isAdd:true
-                },
-                () => {
-                  this.fetchNow();
-                  $("#modal-create").modal("hide");
-                  toast.success(`Chatbot Path Created Succesfully`, {
-                    position: toast.POSITION.TOP_CENTER,
-                  });
-                }
-              );
           })
-        })
-        
+        });
+      })
+    }
+    else{
+      if(this.state.title!==""||this.state.key!==""){
+        if(this.state.isAdd){
+          this.setState({ isLoading: true }, () => {
+            let body = new URLSearchParams({
+              title: field.title,
+              response: field.response,
+            });
+            NodeAPI.createFe(body).then((result) => {
+              let idNext=parseInt(result.data);
+              let bodys = new URLSearchParams({
+                id_rule: parseInt(this.props.match.params.id),
+                id_currentNode: parseInt(this.state.currentNode.id_nextNode),
+                id_nextNode: idNext,
+                type: 'default',
+                key: field.key,
+                title: field.title,
+              });
+              
+              NodeAPI.createPathDefaultFe(bodys).then((result) => {
+                this.handleCloseModal(null,()=>{
+                   this.fetchNow();
+                    toast.success(`Chatbot Path Created Succesfully`, {
+                      position: toast.POSITION.TOP_CENTER,
+                    });
+                })
+              });
+            });
+          });
+        }else{
+          this.setState({isLoading:true},()=>{
+            let bodyNode = new URLSearchParams({
+              title: field.title,
+              response: field.response,
+              id:this.state.currentNode.id_nextNode,
+              id_path:this.state.currentNode.id
+            });
+            NodeAPI.updateFe(bodyNode).then((result)=>{
+              this.handleCloseModal(null,()=>{
+                this.fetchNow();
+                toast.success(`Chatbot Path Created Succesfully`, {
+                  position: toast.POSITION.TOP_CENTER,
+                });
+              })
+            })
+          })
+          
+        }
       }
-      
     }
     
+    
 
-    // console.log(data);
   }
 
   handleCheck(e) {
-    console.log(e);
+   
     let flattenArray = this.convertArrayTreeToFlat(this.state.dataTree, []);
     const filterNode = flattenArray.filter(
       (row) => e.id_currentNode === row.id_nextNode
@@ -238,14 +256,19 @@ class Diagram extends Component {
         parrentNode: filterNode.length > 0 ? filterNode[0] : e,
       },
       () => {
+         console.log("currentNode",e);
+         console.log("parrentNode",this.state.parrentNode);
         $("#modal-create").modal("show");
       }
     );
   }
+
   fetchNow() {
-    this.setState({ isLoading: true }, () => {
+    toast.success(`Chatbot Path Created Succesfully`, {
+      position: toast.POSITION.TOP_CENTER,
+    });
+    this.setState({ isLoading: true, loadingTitle:"checking data rule", currentNode:null, parrentNode:null}, () => {
       RuleAPI.get().then((res) => {
-        console.log(res);
         let rule = [];
         let parId=this.props.match.params.id;
         if (res.status === 200) {
@@ -257,9 +280,8 @@ class Diagram extends Component {
               return item.id === parseInt(id);
             });
           }
-          this.setState({ rule },()=>{
-            this.retrieveAPINode();
-           
+          this.setState({ rule,loadingTitle:"checking data path", currentNode:null, parrentNode:null},()=>{
+            // this.retrieveAPINode();
             NodeAPI.getPathByRule(parId).then((result) => {
               console.log(result);
               if(result.node.length>0){
@@ -271,14 +293,16 @@ class Diagram extends Component {
                     Object.assign(row, { children: [] });
                   });
                   const check = this.convertArrayFlatToTree(data);
-                  this.setState({ dataTree: check}, () => {
-                    this.setState({isLoading:false})
+                  this.setState({ dataTree: check,loadingTitle:"data siap dikonsumsi"}, () => {
+                    setTimeout(()=>{
+                      this.setState({isLoading:false, loadingTitle:""})
+                       $("#modal-create").modal("hide");
+                    },300)
                   });
                 }
               }
             });
           });
-          
         }
       });
     });
@@ -290,28 +314,53 @@ class Diagram extends Component {
     
   }
   handleZoom(e) {
-    clearTimeout(this.state.timer);
-    let zooms = this.state.zoom;
-    let isZoomIn = this.state.isZoomIn;
-    let isZoomOut = this.state.isZoomOut;
-    if (e === "+") {
-      if (zooms < 100) {
-        zooms = zooms + 5;
-        isZoomIn = true;
-        isZoomOut = false;
+    this.setState({isLoading:true},()=>{
+      let zooms = this.state.zoom;
+      let isZoomIn = this.state.isZoomIn;
+      let isZoomOut = this.state.isZoomOut;
+      if (e === "+") {
+        if (zooms < 100) {
+          zooms = zooms + 5;
+          isZoomIn = true;
+          isZoomOut = false;
+        }
+      } else {
+        if (zooms > 10) {
+          zooms = zooms - 5;
+          isZoomIn = false;
+          isZoomOut = true;
+        }
       }
-    } else {
-      if (zooms > 10) {
-        zooms = zooms - 5;
-        isZoomIn = false;
-        isZoomOut = true;
-      }
-    }
-    const newTimer = setTimeout(() => {
-      console.log(zooms)
-      this.setState({ zoom: zooms, isZoomIn, isZoomOut });
-    }, 300);
-    this.setState({ timer: newTimer });
+      // clearTimeout(this.state.timer);
+      setTimeout(() => {
+        this.setState({ zoom: zooms, isZoomIn, isZoomOut,isLoading:false });
+      }, 10);
+      // this.setState({ timer: newTimer });
+    })
+    
+  }
+
+  handleCloseModal(e=null,callback=null){
+    this.setState({isLoading:true,loadingTitle:"generate tree view chatbot"},()=>{
+      $("#modal-create").modal("hide");
+      setTimeout(()=>{
+        this.setState({
+          isAdd:true,
+          alur:"",
+          isModal:false,
+          title: "",
+          response: "",
+          tipe: "default",
+          isTrigger: false,
+          key: "",
+          id_nextNode:"",
+          currentNode:null
+        },()=> {
+          if(callback!==null) callback();
+        })
+      },50)
+    })
+    
   }
 
   render() {
@@ -322,12 +371,12 @@ class Diagram extends Component {
     `;
 
     return (
-      <>
-        {/* <Helmet title={"Chatbot - " + process.env.REACT_APP_WEB_NAME} /> */}
+      <React.Fragment>
+        <Helmet title={"Chatbot - " + process.env.REACT_APP_WEB_NAME} />
         <Breadcrumbs title={"Chatbot Rule "} />
-        <Loading show={this.state.isLoading} />
+        <Loading show={this.state.isLoading}  msg={this.state.loadingTitle}/>
 
-        <div className="container">
+        {this.state.currentNode===null&&<div className="container">
            <div className="row">
             <div className="col-12">
               <div className="card">
@@ -336,11 +385,14 @@ class Diagram extends Component {
                   style={{ paddingBottom: "30px" }}
                 >
                   <div className="mx-0 d-flex justify-content-between">
-                    <h5 className="m-0 pt-1">Tree Diagram</h5>
+                    <h5 className="m-0 pt-1">{this.state.title} Tree Diagram</h5>
                     <h5 className="m-0 pt-1">
                       <button
                         className="btn btn-primary btn-sm"
-                        onClick={() => this.handleZoom("-")}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          this.handleZoom("-")
+                        }}
                       >
                         zoom out{" "}
                         {this.state.isZoomOut ? `${this.state.zoom}%` : ""}
@@ -362,7 +414,8 @@ class Diagram extends Component {
                     padding: "0",
                   }}
                 >
-                  <StyledNodeWrap>
+                  {
+                    this.state.dataTree.length>0&&<StyledNodeWrap>
                     <Tree
                       lineWidth={"2px"}
                       lineColor={"rgba(0, 0, 0, 0.2)"}
@@ -385,24 +438,32 @@ class Diagram extends Component {
                       />
                     </Tree>
                   </StyledNodeWrap>
+                  }
+                  
                 </div>
               </div>
             </div>
           </div>
-       </div>
-        {this.state.currentNode!==null && (
-          <div
+       </div>}
+       {
+        this.state.currentNode!==null&&<div
             className="modal fade"
             id="modal-create"
             tabIndex="-1"
             aria-labelledby="modal-create"
             aria-hidden="true"
+            data-backdrop="static"
           >
-            <div className="modal-dialog modal-md">
+            <div className="modal-dialog modal-md  modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title">Tambah Path</h5>
                   <button
+                    onClick={(e)=>{
+                      this.handleCloseModal(null,()=>{
+                        this.setState({isLoading:false})
+                      })
+                    }}
                     type="button"
                     className="close"
                     data-dismiss="modal"
@@ -433,7 +494,6 @@ class Diagram extends Component {
                       <div className="col-md-2">
                         <button onClick={(e)=>{
                           e.preventDefault();
-                          console.log(this.state.currentNode)
                           this.setState({
                             isAdd:false,
                             title:this.state.currentNode.title,
@@ -448,25 +508,51 @@ class Diagram extends Component {
                     </div>
                     <div className="row">
                       <div className="col-md-12">
-                        <div className="form-group">
-                          <label className="form-label">current node</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name=""
-                            disabled
-                            value={this.state.currentNode.id}
-                          />
+                         <div className="form-group">
+                          <label className="form-label">Alur pesan</label>
+                          <select name="alur" className="form-control" value={this.state.alur} onChange={this.handleChange}>
+                            <option value="">Lanjut</option>
+                            <option value="0">Kembali ke menu sebelumnya</option>
+                            <option value="99">Kembali ke menu awal</option>
+                          </select>
                         </div>
-                        <div className="form-group">
-                          <label className="form-label">parent node</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name=""
-                            disabled
-                            value={this.state.parrentNode.id}
-                          />
+                        <div className="row">
+                          <div className="col-md-4">
+                             <div className="form-group">
+                              <label className="form-label">Parrent Node</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="id_parrentNode"
+                                readOnly
+                                value={this.state.currentNode.id_currentNode}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label className="form-label">Current Node</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="id_currentNode"
+                                readOnly
+                                value={this.state.currentNode.id_nextNode}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label className="form-label">Next Node</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="id_nextNode"
+                                readOnly
+                                value={this.state.id_nextNode}
+                              />
+                            </div>
+                          </div>
                         </div>
                         <div className="form-group">
                           <label className="form-label">Judul Pesan</label>
@@ -476,96 +562,20 @@ class Diagram extends Component {
                             name="title"
                             value={this.state.title}
                             onChange={this.handleChange}
+                            readOnly={this.state.alur==='0'||this.state.alur==='99'}
                           />
                         </div>
                         <div className="form-group">
-                          <label>Isi Pesan</label>
+                          <label className="form-label">Isi Pesan</label>
                           <textarea
                             className="form-control"
                             name="response"
-                            rows={3}
+                            rows={10}
                             onChange={this.handleChange}
                             value={this.state.response}
+                            readOnly={this.state.alur==='0'||this.state.alur==='99'}
                           ></textarea>
                         </div>
-                        {/* <div className="form-group">
-                          <label className="form-label">Jenis Pesan</label>
-                          <select
-                            value={this.state.tipe}
-                            onChange={this.handleChange}
-                            name="tipe"
-                            className="form-control"
-                          >
-                            <option value="" disabled>
-                              -- Pilih Jenis Pesan--
-                            </option>
-                            <option value="default">Information Node</option>
-                            <option value="api">API Node</option>
-                            <option value="eform">E-form Node</option>
-                          </select>
-                        </div>
-                        {this.state.tipe === "default" && (
-                          <React.Fragment>
-                            <div className="form-group">
-                              <label>Isi Pesan</label>
-                              <textarea
-                                className="form-control"
-                                name="response"
-                                rows={3}
-                                onChange={this.handleChange}
-                                value={this.state.response}
-                              ></textarea>
-                            </div>
-                          </React.Fragment>
-                        )}
-                        {this.state.tipe === "api" && (
-                          <React.Fragment>
-                            <div className="form-group">
-                              <label className="form-label">API Node</label>
-                              <select
-                                value={this.state.id_api}
-                                onChange={this.handleChange}
-                                name="id_api"
-                                className="form-control"
-                              >
-                                <option value="" disabled>
-                                  -- Choose API Node--
-                                </option>
-                                {this.state.apiData.map((value, index) => {
-                                  return (
-                                    <option value={value.id} key={index}>
-                                      {value.url}
-                                    </option>
-                                  );
-                                })}
-                              </select>
-                            </div>
-                          </React.Fragment>
-                        )}
-                        {this.state.tipe === "eform" && (
-                          <React.Fragment>
-                            <div className="form-group">
-                              <label className="form-label">e-Form Node</label>
-                              <select
-                                // value={this.state.id_eform}
-                                onChange={this.handleChange}
-                                name="id_eform"
-                                className="form-control"
-                              >
-                                <option value="" disabled>
-                                  -- Choose E-form Node--
-                                </option>
-                                {this.state.FormIsi.map((value, index) => {
-                                  return (
-                                    <option value={value.id} key={index}>
-                                      {value.eform_name}
-                                    </option>
-                                  );
-                                })}
-                              </select>
-                            </div>
-                          </React.Fragment>
-                        )} */}
                         <div className="form-group">
                           <div className="d-flex align-items-center mb-2">
                             <label className="form-label mb-0 mr-1">Trigger</label>
@@ -577,7 +587,7 @@ class Diagram extends Component {
                             onChange={this.handleChange}
                             name="any"
                           />
-                          <label> &nbsp;Any</label>
+                          <label className="form-label"> &nbsp;Any</label>
                           <input
                             onChange={this.handleChange}
                             type="text"
@@ -590,10 +600,14 @@ class Diagram extends Component {
                         </div>
                       </div>
                     </div>
-                    
                   </div>
                   <div className="modal-footer">
                     <button
+                      onClick={(e)=>{
+                        this.handleCloseModal(null,()=>{
+                          this.setState({isLoading:false})
+                        })
+                      }}
                         data-dismiss="modal"
                         className="btn btn-outline-success"
                       >
@@ -605,8 +619,8 @@ class Diagram extends Component {
               </div>
             </div>
           </div>
-        )}
-      </>
+       }
+      </React.Fragment>
     );
   }
 }

@@ -7,10 +7,15 @@ class Loading extends Component {
             return (
                 <React.Fragment>
                     <div className={Style.loadingOverlay}></div>
-                    <div className={Style.loadingCard}>
-                        <div className={"spinner-border " + Style.loadingSpinner} role="status">
+                    <div className={Style.loadingCard}  style={{alignItems:"center"}}>
+                        {
+                            this.props.msg?<h3 style={{top:"50%",right:"50%",color:"white"}}>{this.props.msg} ....</h3>: <div className={"spinner-border " + Style.loadingSpinner} role="status">
                             <span className="sr-only">Loading...</span>
                         </div>
+                        }
+                        
+                        
+
                     </div>
                 </React.Fragment>
             );

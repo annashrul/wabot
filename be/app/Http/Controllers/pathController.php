@@ -127,18 +127,21 @@ class pathController extends Controller
     }
     public function getPathByRule($id)
     {
+
+        $notIn = "NOT IN ('0','99')";
         $node = DB::select('
             SELECT path_table.*, node_table.response, node_table.title node_title
             FROM path_table
             JOIN node_table ON node_table.id=path_table."id_nextNode"
+            WHERE path_table."key" '.$notIn.'
             order by path_table."id_currentNode", path_table."key" asc
         ');
         // $node = DB::table('path_table')->orderBy("id","asc")->get();
         if(sizeof($node) > 0){
             $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
-            foreach($node as $row){
-                $this->recursiveNode($row);
-            }
+            // foreach($node as $row){
+            //     $this->recursiveNode($row);
+            // }
             return response()->json([
                 "status" => 200,
                 "message" => "Succeess",            
