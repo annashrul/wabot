@@ -9,7 +9,7 @@ class ComponentNode extends Component {
   }
 
   render() {
-    let desc = this.props.obj.title;
+    let desc = this.props.obj.title?this.props.obj.title:"";
     let isWrap = "nowrap";
     if (desc.length > 40) {
       desc = desc.substring(0, 40);
@@ -63,20 +63,15 @@ class ComponentNode extends Component {
             <ComponentNode
               key={i}
               obj={{
-                // name: res.name,
-                // id_parent: res.id_parent,
-                // id: res.id,
-                // id_currentNode: res.id_currentNode,
-                // id_nextNode: res.id_nextNode,
-                // key: res.key,
-                // type: res.type,
-                // children: res.children,
+                
                 id: res.id,
                 id_currentNode: res.id_currentNode,
                 id_nextNode: res.id_nextNode,
                 title: res.title,
+                node_title: res.node_title,
                 key: res.key,
                 type: res.type,
+                response:res.response,
                 children: res.children,
               }}
               callback={(id) => {

@@ -1,7 +1,10 @@
 import fetchNow from '../_Fetch.jsx';
 
 const RuleAPI = {
-     createFe: (body) => {
+    updateFe: (body) => {
+        return fetchNow('/nodeFeUpdate', 'POST', body);
+    },
+    createFe: (body) => {
         return fetchNow('/nodeFe', 'POST', body);
     },
      createPathDefaultFe: (body) => {

@@ -127,7 +127,13 @@ class pathController extends Controller
     }
     public function getPathByRule($id)
     {
-        $node = DB::table('path_table')->orderBy("id","asc")->get();
+        $node = DB::select('
+            SELECT path_table.*, node_table.response, node_table.title node_title
+            FROM path_table
+            JOIN node_table ON node_table.id=path_table."id_nextNode"
+            order by path_table."id_currentNode", path_table."key" asc
+        ');
+        // $node = DB::table('path_table')->orderBy("id","asc")->get();
         if(sizeof($node) > 0){
             $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
             foreach($node as $row){
@@ -138,6 +144,7 @@ class pathController extends Controller
                 "message" => "Succeess",            
                 "data" => $path,
                 "node"=>$node,
+                // "bangsat"=>$newNode
             ], 200);
         }else{
              return response()->json([
@@ -146,27 +153,7 @@ class pathController extends Controller
                 "data" => [],
             ], 200);
         }
-        // if((path::where('id_rule', $id)->count())>0){
-        //     $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
-           
-        //     $nodeNew = DB::table('path_table')->orderBy("id","desc")->get();
-        //     foreach($node as $row){
-        //         $this->recursiveNode($row);
-        //     }
-        //     return response()->json([
-        //         "status" => 200,
-        //         "message" => "Succeess",            
-        //         "data" => $path,
-        //         "node"=>$node,
-        //         "nodeNew"=>$nodeNew,
-        //     ], 200);
-        // }else{
-        //     return response()->json([
-        //         "status" => 200,
-        //         "message" => "Path not found",
-        //         "data" => $node,
-        //     ], 200);
-        // }
+      
     }
     public function updatePath(Request $request)
     {

@@ -288,9 +288,9 @@ class messageController extends Controller
                 $pathNext = $path->getPathByIdCurrentNode($next->id_nextNode)->getData();
                 foreach ($pathNext->data as $key => $value) {
 
-                    if($value->key == 1){ //            condition api node response success
+                    if(trim($value->key) == 1){ //            condition api node response success
                         $success = $value;
-                    }else if($value->key == 0){ //      condition api node response failed
+                    }else if(trim($value->key) == 0){ //      condition api node response failed
                         $failed = $value;
                     }
                 }

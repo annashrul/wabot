@@ -5,9 +5,47 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\node;
 use Illuminate\Support\Facades\DB;
+use App\Models\path;
 
 class nodeController extends Controller
 {
+    public function nodeFeUpdate(Request $request){
+        $countNode=node::where('id', $request->id)->count();
+        if($countNode>0){
+            $node = node::find($request->id);
+            $node->response = is_null($request->response) ? $node->response : $request->response;
+            $node->title = is_null($request->title) ? $node->title : $request->title;
+           
+            if((path::where('id', $request->id_path)->count()) > 0){
+                $path = path::find($request->id_path);
+                $path->title = empty ($request->title) ? $path->title : $request->title;
+                $node->save();
+                $path->save();
+                return response()->json([
+                        "status" => 200,
+                        "message" => "Node successfully updated",
+                        "data" => $path
+                    ], 200);
+            }else{
+                return response()->json([
+                    "status" => 200,
+                    "message" => "Rule not found",
+                    "data" => []
+                ], 200);            
+            }
+            // return response()->json([
+            //     "status" => 200,
+            //     "message" => "Node successfully updated",
+            //     "data" => $node
+            // ], 200);
+        }else{
+            return response()->json([
+                "status" => 200,
+                "message" => "Node not found",
+                "data" => []
+            ], 200);   
+        }
+    }
     public function createNodeFe(Request $request){
         $id_node = DB::table('node_table')->insertGetId([
             'title' => $request->title,
@@ -107,6 +145,7 @@ class nodeController extends Controller
     public function updateNode(Request $request)
     {
         if((node::where('id', $request->id_node)->count()) > 0){
+            
             $node = node::find($request->id_node);
             $node->response = is_null($request->response) ? $node->response : $request->response;
             $node->title = is_null($request->title) ? $node->title : $request->title;

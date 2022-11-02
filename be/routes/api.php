@@ -80,7 +80,9 @@ Route::group([
 ], function ($router)
 {
     Route::post('/pathFe', [pathController::class,'createPathFe']);  
-   Route::post('/nodeFe', [nodeController::class,'createNodeFe']);  
+    Route::post('/nodeFe', [nodeController::class,'createNodeFe']);  
+    Route::post('/nodeFeUpdate', [nodeController::class,'nodeFeUpdate']);  
+
    
    
   Route::post('/contact', [contactController::class, 'createContact']);

@@ -29,6 +29,7 @@ class Diagram extends Component {
       currentNode: null,
       parrentNode: null,
       isModal:false,
+      isAdd:true,
       dataTree: [
         {
           id: "1",
@@ -36,7 +37,9 @@ class Diagram extends Component {
           id_nextNode: "2",
           key: "any",
           title: "start",
+          node_title: "start",
           type: "default",
+          response: "-",
           children: [],
         },
       ],
@@ -44,7 +47,7 @@ class Diagram extends Component {
       apiData: [],
       title: "",
       response: "",
-      tipe: "",
+      tipe: "default",
       isTrigger: false,
       key: "",
       id_eform: "",
@@ -138,48 +141,85 @@ class Diagram extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    let field = {};
-    for (let [key, value] of data.entries()) {
-      Object.assign(field, { [key]: value });
-    }
-    this.setState({ isLoading: true }, () => {
-      let body = new URLSearchParams({
-        title: field.title,
-        response: field.response,
-      });
-      NodeAPI.createFe(body).then((result) => {
-        let bodys = new URLSearchParams({
-          id_rule: parseInt(this.props.match.params.id),
-          id_currentNode: parseInt(this.state.currentNode.id_nextNode),
-          id_nextNode: parseInt(result.data),
-          type: field.tipe,
-          key: field.key,
-          title: field.title,
+    if(this.state.title!==""){
+      const data = new FormData(e.currentTarget);
+      let field = {};
+      for (let [key, value] of data.entries()) {
+        Object.assign(field, { [key]: value });
+      }
+      if(this.state.isAdd){
+        this.setState({ isLoading: true }, () => {
+          let body = new URLSearchParams({
+            title: field.title,
+            response: field.response,
+          });
+          NodeAPI.createFe(body).then((result) => {
+            let bodys = new URLSearchParams({
+              id_rule: parseInt(this.props.match.params.id),
+              id_currentNode: parseInt(this.state.currentNode.id_nextNode),
+              id_nextNode: parseInt(result.data),
+              type: field.tipe,
+              key: field.key,
+              title: field.title,
+            });
+            
+            NodeAPI.createPathDefaultFe(bodys).then((result) => {
+              this.setState(
+                {
+                  title: "",
+                  tipe: "",
+                  isTrigger: false,
+                  key: "",
+                  response: "",
+                  isModal:false,
+                  isLoading:false
+                },
+                () => {
+                  this.fetchNow();
+                  $("#modal-create").modal("hide");
+                  toast.success(`Chatbot Path Created Succesfully`, {
+                    position: toast.POSITION.TOP_CENTER,
+                  });
+                }
+              );
+            });
+          });
         });
+      }else{
+        this.setState({isLoading:false},()=>{
+          let bodyNode = new URLSearchParams({
+            title: field.title,
+            response: field.response,
+            id:this.state.currentNode.id_nextNode,
+            id_path:this.state.currentNode.id
+          });
+          NodeAPI.updateFe(bodyNode).then((result)=>{
+            this.setState(
+                {
+                  title: "",
+                  tipe: "",
+                  isTrigger: false,
+                  key: "",
+                  response: "",
+                  isModal:false,
+                  isLoading:false,
+                  isAdd:true
+                },
+                () => {
+                  this.fetchNow();
+                  $("#modal-create").modal("hide");
+                  toast.success(`Chatbot Path Created Succesfully`, {
+                    position: toast.POSITION.TOP_CENTER,
+                  });
+                }
+              );
+          })
+        })
         
-        NodeAPI.createPathDefaultFe(bodys).then((result) => {
-          this.setState(
-            {
-              title: "",
-              tipe: "",
-              isTrigger: false,
-              key: "",
-              response: "",
-              isModal:false,
-              isLoading:false
-            },
-            () => {
-              this.fetchNow();
-              $("#modal-create").modal("hide");
-              toast.success(`Chatbot Path Created Succesfully`, {
-                position: toast.POSITION.TOP_CENTER,
-              });
-            }
-          );
-        });
-      });
-    });
+      }
+      
+    }
+    
 
     // console.log(data);
   }
@@ -282,13 +322,13 @@ class Diagram extends Component {
     `;
 
     return (
-      <React.Fragment>
-        <Helmet title={"Chatbot - " + process.env.REACT_APP_WEB_NAME} />
+      <>
+        {/* <Helmet title={"Chatbot - " + process.env.REACT_APP_WEB_NAME} /> */}
         <Breadcrumbs title={"Chatbot Rule "} />
         <Loading show={this.state.isLoading} />
 
-        <Container>
-          <div className="row">
+        <div className="container">
+           <div className="row">
             <div className="col-12">
               <div className="card">
                 <div
@@ -335,8 +375,10 @@ class Diagram extends Component {
                           id_currentNode: this.state.dataTree[0].id_currentNode,
                           id_nextNode: this.state.dataTree[0].id_nextNode,
                           title: this.state.dataTree[0].title,
+                          node_title: this.state.dataTree[0].node_title,
                           key: this.state.dataTree[0].key,
                           type: this.state.dataTree[0].type,
+                          response: this.state.dataTree[0].response,
                           children: this.state.dataTree[0].children,
                         }}
                         callback={this.handleCheck.bind(this)}
@@ -347,7 +389,7 @@ class Diagram extends Component {
               </div>
             </div>
           </div>
-        </Container>
+       </div>
         {this.state.currentNode!==null && (
           <div
             className="modal fade"
@@ -369,57 +411,73 @@ class Diagram extends Component {
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+               
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="modal-body">
-                    <div className="form-group">
-                      <label className="form-label">current node</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name=""
-                        disabled
-                        value={this.state.currentNode.title}
-                      />
+                    <div className="row" style={{borderBottom:"1px solid #EEEEEE",marginBottom:"10px"}}>
+                      <div className="col-md-2">
+                        <button onClick={(e)=>{
+                          e.preventDefault();
+                          this.setState({
+                            isAdd:true,
+                            title:"",
+                            response:"",
+                            key:"",
+                            isTrigger:false
+                          });
+                        }} className={`btn-custom-tab ${this.state.isAdd?'active':''}`}>
+                          Tambah
+                        </button>
+                      </div>
+                      <div className="col-md-2">
+                        <button onClick={(e)=>{
+                          e.preventDefault();
+                          console.log(this.state.currentNode)
+                          this.setState({
+                            isAdd:false,
+                            title:this.state.currentNode.title,
+                            response:this.state.currentNode.response,
+                            key:this.state.currentNode.key,
+                            isTrigger:false
+                          });
+                        }} className={`btn-custom-tab ${!this.state.isAdd?'active':''}`}>
+                          Ubah
+                        </button>
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">parent node</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name=""
-                        disabled
-                        value={this.state.parrentNode.title}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Judul Pesan</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="title"
-                        value={this.state.title}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Jenis Pesan</label>
-                      <select
-                        value={this.state.tipe}
-                        onChange={this.handleChange}
-                        name="tipe"
-                        className="form-control"
-                      >
-                        <option value="" disabled>
-                          -- Pilih Jenis Pesan--
-                        </option>
-                        <option value="default">Information Node</option>
-                        <option value="api">API Node</option>
-                        <option value="eform">E-form Node</option>
-                      </select>
-                    </div>
-                    {this.state.tipe === "default" && (
-                      <React.Fragment>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label className="form-label">current node</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name=""
+                            disabled
+                            value={this.state.currentNode.id}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">parent node</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name=""
+                            disabled
+                            value={this.state.parrentNode.id}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">Judul Pesan</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="title"
+                            value={this.state.title}
+                            onChange={this.handleChange}
+                          />
+                        </div>
                         <div className="form-group">
                           <label>Isi Pesan</label>
                           <textarea
@@ -430,96 +488,125 @@ class Diagram extends Component {
                             value={this.state.response}
                           ></textarea>
                         </div>
-                      </React.Fragment>
-                    )}
-                    {this.state.tipe === "api" && (
-                      <React.Fragment>
-                        <div className="form-group">
-                          <label className="form-label">API Node</label>
+                        {/* <div className="form-group">
+                          <label className="form-label">Jenis Pesan</label>
                           <select
-                            value={this.state.id_api}
+                            value={this.state.tipe}
                             onChange={this.handleChange}
-                            name="id_api"
+                            name="tipe"
                             className="form-control"
                           >
                             <option value="" disabled>
-                              -- Choose API Node--
+                              -- Pilih Jenis Pesan--
                             </option>
-                            {this.state.apiData.map((value, index) => {
-                              return (
-                                <option value={value.id} key={index}>
-                                  {value.url}
-                                </option>
-                              );
-                            })}
+                            <option value="default">Information Node</option>
+                            <option value="api">API Node</option>
+                            <option value="eform">E-form Node</option>
                           </select>
                         </div>
-                      </React.Fragment>
-                    )}
-                    {this.state.tipe === "eform" && (
-                      <React.Fragment>
+                        {this.state.tipe === "default" && (
+                          <React.Fragment>
+                            <div className="form-group">
+                              <label>Isi Pesan</label>
+                              <textarea
+                                className="form-control"
+                                name="response"
+                                rows={3}
+                                onChange={this.handleChange}
+                                value={this.state.response}
+                              ></textarea>
+                            </div>
+                          </React.Fragment>
+                        )}
+                        {this.state.tipe === "api" && (
+                          <React.Fragment>
+                            <div className="form-group">
+                              <label className="form-label">API Node</label>
+                              <select
+                                value={this.state.id_api}
+                                onChange={this.handleChange}
+                                name="id_api"
+                                className="form-control"
+                              >
+                                <option value="" disabled>
+                                  -- Choose API Node--
+                                </option>
+                                {this.state.apiData.map((value, index) => {
+                                  return (
+                                    <option value={value.id} key={index}>
+                                      {value.url}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                          </React.Fragment>
+                        )}
+                        {this.state.tipe === "eform" && (
+                          <React.Fragment>
+                            <div className="form-group">
+                              <label className="form-label">e-Form Node</label>
+                              <select
+                                // value={this.state.id_eform}
+                                onChange={this.handleChange}
+                                name="id_eform"
+                                className="form-control"
+                              >
+                                <option value="" disabled>
+                                  -- Choose E-form Node--
+                                </option>
+                                {this.state.FormIsi.map((value, index) => {
+                                  return (
+                                    <option value={value.id} key={index}>
+                                      {value.eform_name}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                          </React.Fragment>
+                        )} */}
                         <div className="form-group">
-                          <label className="form-label">e-Form Node</label>
-                          <select
-                            // value={this.state.id_eform}
-                            onChange={this.handleChange}
-                            name="id_eform"
-                            className="form-control"
-                          >
-                            <option value="" disabled>
-                              -- Choose E-form Node--
-                            </option>
-                            {this.state.FormIsi.map((value, index) => {
-                              return (
-                                <option value={value.id} key={index}>
-                                  {value.eform_name}
-                                </option>
-                              );
-                            })}
-                          </select>
+                          <div className="d-flex align-items-center mb-2">
+                            <label className="form-label mb-0 mr-1">Trigger</label>
+                          </div>
                         </div>
-                      </React.Fragment>
-                    )}
-                    <div className="form-group">
-                      <div className="d-flex align-items-center mb-2">
-                        <label className="form-label mb-0 mr-1">Trigger</label>
+                        <div className="form-group">
+                          <input
+                            type="checkbox"
+                            onChange={this.handleChange}
+                            name="any"
+                          />
+                          <label> &nbsp;Any</label>
+                          <input
+                            onChange={this.handleChange}
+                            type="text"
+                            name="key"
+                            placeholder="Masukkan trigger"
+                            className="form-control"
+                            value={this.state.key}
+                            disabled={this.state.isTrigger}
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className="form-group">
-                      <input
-                        type="checkbox"
-                        onChange={this.handleChange}
-                        name="any"
-                      />
-                      <label> &nbsp;Any</label>
-                      <input
-                        onChange={this.handleChange}
-                        type="text"
-                        name="key"
-                        placeholder="Masukkan trigger"
-                        className="form-control"
-                        value={this.state.key}
-                        disabled={this.state.isTrigger}
-                      />
-                    </div>
+                    
                   </div>
                   <div className="modal-footer">
-                    <React.Fragment>
-                      <button
+                    <button
                         data-dismiss="modal"
                         className="btn btn-outline-success"
                       >
                         Cancel
                       </button>
                       <button className="btn btn-success">Create</button>
-                    </React.Fragment>
                   </div>
                 </form>
               </div>
             </div>
           </div>
         )}
-      </React.Fragment>
+      </>
     );
   }
 }
