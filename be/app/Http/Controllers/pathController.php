@@ -130,8 +130,6 @@ class pathController extends Controller
         $node = DB::table('path_table')->orderBy("id","asc")->get();
         if(sizeof($node) > 0){
             $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
-           
-            $nodeNew = DB::table('path_table')->orderBy("id","desc")->get();
             foreach($node as $row){
                 $this->recursiveNode($row);
             }
@@ -140,7 +138,6 @@ class pathController extends Controller
                 "message" => "Succeess",            
                 "data" => $path,
                 "node"=>$node,
-                "nodeNew"=>$nodeNew,
             ], 200);
         }else{
              return response()->json([
