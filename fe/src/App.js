@@ -169,7 +169,6 @@ class App extends Component {
               exact
               render={(props) => <Page name="diagram/diagramtest" {...props} />}
             />
-
             <Route path="/" render={(props) => <Page {...props} />} />
           </Switch>
         </BrowserRouter>

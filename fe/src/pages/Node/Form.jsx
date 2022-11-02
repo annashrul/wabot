@@ -30,6 +30,8 @@ class Form extends Component {
             FormIsi:[],
             DeviceData:[],
             method:'',
+            id_device:1,
+            id:"",
             isi: {
                 eform_name: "",
                 id_device: "",
@@ -71,9 +73,8 @@ class Form extends Component {
         this.setState({
             isLoading: true,
         }, () => {
-            NodeApi.getEformNode(this.state.isi.id_device).then((result) => {
+            NodeApi.getEformNode(this.state.id_device).then((result) => {
                 let data = [];
-
                 if(result.status === 200) {
                     data = result.data;
                 }
@@ -119,7 +120,7 @@ class Form extends Component {
         this.setState({
             isi: {
                 eform_name: "",
-                id_device: this.state.isi.id_device,
+                id_device: this.state.id_device,
                 id: "",
                 id_user:"",
                 method: ""
@@ -132,18 +133,15 @@ class Form extends Component {
 
     eformAdd() {
         this.setState({
-            isLoading: true,
-            
+            isLoading: true
         }, () => {
 
             let dataForm = new URLSearchParams({
                 eform_name: this.state.isi.eform_name,
-                // id_device: this.state.isi.id_device
-                id_device: 1
+                id_device: this.state.id_device
             }) 
 
             NodeApi.createEform(dataForm).then((result) => {
-               
                 if(result.status === 200) {
                     let data = result.data;
                     let question={};
@@ -157,25 +155,17 @@ class Form extends Component {
                     
                     NodeApi.createQuestion(body).then((result) => {
                         console.log(result)
-                        
                         if(result.status === 200) {
-                            let stateIsi = this.state.isi;
-                            Object.assign(stateIsi,{id_device:1})
-                            this.setState(stateIsi,()=>{
-                                this.fetchNow();
-                                toast.success(`Add Question Success!`, {
+                            this.fetchNow();
+                            $('#formModal').modal('toggle');
+                            toast.success(`Add Question Success!`, {
                                 position: toast.POSITION.TOP_CENTER
                             });
-                            $('#formModal').modal('toggle');
-                            })
-                            
-                            
-                            
                         }else{
                             this.setState({
                                 isLoading: false
                             }, () => {
-                                // $('#formModal').modal('toggle');
+                                $('#formModal').modal('toggle');
                                 toast.error(`Add Question Failed (Status Code ${result.status})`, {
                                     position: toast.POSITION.TOP_CENTER
                                 });
@@ -187,7 +177,7 @@ class Form extends Component {
                     this.setState({
                         isLoading: false
                     }, () => {
-                        // $('#formModal').modal('toggle');
+                        $('#formModal').modal('toggle');
                         toast.error(`Add E-form Failed (Status Code ${result.status})`, {
                             position: toast.POSITION.TOP_CENTER
                         });
@@ -229,7 +219,7 @@ class Form extends Component {
                 id_eform: this.state.isi.id
             }) 
 
-            NodeApi.updateEform(this.state.isi.id_device,dataForm).then((result) => {
+            NodeApi.updateEform(this.state.id_device,dataForm).then((result) => {
                 console.log(result)
                 if(result.status === 200) {
                     let body = new URLSearchParams({
@@ -277,10 +267,11 @@ class Form extends Component {
             isLoading: true
         }, () => {
             const dataForm = new URLSearchParams({
-                id_eform: this.state.isi.id
+                id_eform: id,
+                id_device:this.state.id_device
             })
 
-            NodeApi.deleteEform(this.state.isi.id_device,dataForm).then((result) => {
+            NodeApi.deleteEform(this.state.id_device,dataForm).then((result) => {
                 if(result.status === 200) {
                     this.fetchNow();
                     toast.success(`Delete e-Form Success!`, {
@@ -392,7 +383,7 @@ class Form extends Component {
                                     </div>
                                     {/* <div className="form-group">
                                         <label className="form-label">Device</label><br></br>
-                                        <select value={this.state.isi.id_device} onChange={this.handleChange} name="id_device" className="form-control">
+                                        <select value={this.state.id_device} onChange={this.handleChange} name="id_device" className="form-control">
                                             <option value="" disabled>-- Choose Device--</option>
                                             {
                                                 this.state.DeviceData.map((value, index) => {
@@ -433,7 +424,7 @@ class Form extends Component {
                                         <div className="col-12 col-md-4">
                                             <div className="form-group">
                                                 <div className="input-group">
-                                                    <select value={this.state.isi.id_device} onChange={this.handleChange} className="custom-select" name='id_device'>
+                                                    <select value={this.state.id_device} onChange={this.handleChange} className="custom-select" name='id_device'>
                                                         <option value="" disabled>— Choose Device —</option>
                                                         {
                                                             this.state.DeviceData.map((value, index) => {

@@ -312,8 +312,6 @@ class messageController extends Controller
 
                     $responseAPI = $failed;
                 }
-                print_r($responseAPI);
-                // update convo
                 $convo = (object)([
                     'id' => $data[0]['id'],
                     'id_path' => $responseAPI->id,
@@ -328,7 +326,8 @@ class messageController extends Controller
                     'message' => $pesan,
                     'type' => $target,
                 ]);
-            }else{
+            }
+            else{
                 $pathNext = $path->getPathByIdCurrentNode($next->id_nextNode)->getData();
                 if(empty($pathNext->data)){
                     $conversation = new conversationController;
@@ -349,26 +348,26 @@ class messageController extends Controller
                 $nextnode = $node->getNodeById($next->id_nextNode);
                 $nextnode = $nextnode->getData();
                 $nip=$request->message['conversation'];
-                $vaksin = DB::table('vaksin_table')->where("nip_no",$nip)->get();
-                $getDivisi="";$getStatus="";
-                $pesan="STATUS VAKSINASI ANDA\n\nDATA PEGAWAI\n\nDATA PEGAWAI\nNOREG : $nip\nDIVISI : ";
-                $pesanDynamic="";
-                foreach($vaksin as $row){
-                    $stts=$row->empl_cat;
-                    if($row->vacc_dose != 'NOT YET'){
-                        $getDivisi=$row->div_cd;
-                    }
-                    $pesanDynamic.="STATUS : {$stts}\nNAMA : {$row->pat_name}\nTIPE VAKSIN  : {$row->vacc1_cd}\nVAKSIN DOSIS 1 : {$row->vacc1_dt}\nVAKSIN DOSIS 2 :{$row->vacc2_dt}\nVAKSIN DOSIS 3 : {$row->vacc3_dt}\n\n";
+                $fixMsg=$nextnode->data[0]->response;
+                if($this->templateMsgVaksin($nip)){
+                    $fixMsg=$this->templateMsgVaksin($nip);
                 }
-                $pesan.="$getDivisi";
-                $pesan.="\n\nSTATUS VAKSINASI\n\n{$pesanDynamic}\n\n0. Kembali ke menu sebelumnya\n99. Kembali ke menu awal";
+                if($nextnode->data[0]->id == 13){
+                    $fixMsg=$this->envVaksinIndonesia();
+                }
+                $prefix=explode("-",$nip);
+                if(count($prefix) === 4){
+                   $fixMsg= $this->templateMsgTestCovid($nip);
+                }
+
                 $data = (object)([
                     'recipient' => $sender_number,
                     'id_device' => $getDevice->data[0]->id,
-                    'message'   => count($vaksin)>0?$pesan:$nextnode->data[0]->response,
+                    'message'   => $fixMsg,
                     'type'      => $target,
                 ]);
-                $exp=explode('+',count($vaksin)>0?$pesan:$nextnode->data[0]->response);
+                $exp=explode('+',$data->message);
+
             }
             $cek=[];
             for($i=0;$i<count($exp);$i++){
@@ -515,6 +514,73 @@ class messageController extends Controller
 
             return $this->sendMessage($data);
         }
+    }
+
+    private function envVaksinIndonesia(){
+        $response = Http::get("https://apicovid19indonesia-v2.vercel.app/api/indonesia");
+        $newRes=json_decode($response->body());
+        $positif = number_format((int)$newRes->positif)." ORANG";
+        $dirawat = number_format($newRes->dirawat)." ORANG";
+        $sembuh = number_format($newRes->sembuh)." ORANG";
+        $meninggal = number_format($newRes->meninggal)." ORANG";
+        $fixMsg="STATUS UPDATE COVID INDONESIA \n\nTANGGAL : ".date("y-m-d",strtotime($newRes->lastUpdate))."\n";
+        $fixMsg.= "POSITIF : $positif\nDIRAWAT : $dirawat\nSEMBUH : $sembuh\nMENINGGAL : $meninggal\n\n0. Kembali ke menu sebelumnya\n99. Kembali ke menu awal";
+        return $fixMsg;
+    }
+
+    private function templateMsgTestCovid($msg){
+        $baseUrl='https://testcovid19.toyota.co.id/api/';
+        $noReg=$msg;
+        $prefix=explode("-",$msg);
+        if(count($prefix)==4){
+            $url = $baseUrl."login";
+            $body=[
+                "email"=>"daffigusti0890@gmail.com",
+                "password"=>"admin123"
+            ];
+            $response = Http::post($url,$body);
+            $newRes=json_decode($response->body(),TRUE);
+            $token= $newRes['data']['token'];
+            $newResponse= Http::withToken($token)->get($baseUrl.'test/result?registration_id='.$noReg);
+            $resDetail=json_decode($newResponse->body(),TRUE);
+            $fixMsg="ID PASIEN : ".strtoupper($resDetail['data']['id_pasien'])."\n";
+            $fixMsg.="TIPE PASIEN : ".strtoupper($resDetail['data']['tipe_pasien'])."\n";
+            $fixMsg.="NAMA PASIEN : ".strtoupper($resDetail['data']['nama_pasien'])."\n";
+            $fixMsg.="NOMOR HP PASIEN : ".strtoupper($resDetail['data']['nomor_hp'])."\n";
+            $fixMsg.="DIVISI PASIEN : ".strtoupper($resDetail['data']['divisi'])."\n";
+            $fixMsg.="ALAMAT PASIEN : ".strtoupper($resDetail['data']['alamat'])."\n";
+            $fixMsg.="TIPE TEST : ".strtoupper($resDetail['data']['tipe_test'])."\n";
+            $fixMsg.="LOKASI TEST : ".strtoupper($resDetail['data']['lokasi_test'])."\n";
+            $fixMsg.="STATUS : ".strtoupper($resDetail['data']['status'])."\n";
+            $fixMsg.="TANGGAL TEST : ".strtoupper($resDetail['data']['tanggal_test'])."\n";
+            $fixMsg.="\n\n0. Kembali ke menu sebelumnya\n";
+            $fixMsg.="99. Kembali ke menu awal";
+            return $fixMsg;
+        }
+
+    }
+
+
+    private function templateMsgVaksin($nip){
+        $vaksin = DB::table('vaksin_table')->where("nip_no",$nip)->get();
+        if(count($vaksin)>0){
+            $pesan="STATUS VAKSINASI ANDA\n\nDATA PEGAWAI\n\nDATA PEGAWAI\nNOREG : $nip\nDIVISI : ";
+            $pesanDynamic="";
+            $getDivisi="";
+            foreach($vaksin as $row){
+                $stts=$row->empl_cat;
+                if($row->vacc_dose != 'NOT YET'){
+                    $getDivisi=$row->div_cd;
+                }
+                $pesanDynamic.="STATUS : {$stts}\nNAMA : {$row->pat_name}\nTIPE VAKSIN  : {$row->vacc1_cd}\nVAKSIN DOSIS 1 : {$row->vacc1_dt}\nVAKSIN DOSIS 2 :{$row->vacc2_dt}\nVAKSIN DOSIS 3 : {$row->vacc3_dt}\n\n";
+            }
+            $pesan.="$getDivisi";
+            $pesan.="\n\nSTATUS VAKSINASI\n\n{$pesanDynamic}\n\n0. Kembali ke menu sebelumnya\n99. Kembali ke menu awal";
+            return $pesan;
+        }else{
+            return false;
+        }
+
     }
 
     public function getReceiveMessage()

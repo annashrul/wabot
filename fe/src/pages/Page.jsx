@@ -23,7 +23,7 @@ import Support from './Support/Support';
 import Diagram from './Diagram/Diagram';
 import FormNode from './Node/Form';
 import ApiNode from './Node/ApiNode';
-import Diagramtest from './Diagram/Diagramtest.js';
+import Diagramtest from './Diagram/Diagramtest';
 
 class Page extends Component {
     pageSwitch(name) {
@@ -47,12 +47,10 @@ class Page extends Component {
                 return <History />
             case 'message/api':
                 return <APIDocs />
-
             case 'chatbot':
                 return <Chatbot />
-                case 'diagram/diagramtest':
+            case 'diagram/diagramtest':
                 return <Diagramtest />
-            
             case 'support':
                 return <Support />
             case 'diagram':

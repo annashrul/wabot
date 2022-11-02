@@ -20,7 +20,8 @@ class deviceController extends Controller
                     ]);
         if($response->successful()){
             $currentUser = Auth::user();
-            if((device::where('id_user', $currentUser->id)->count()) < 3){
+            $limit=30;
+            if((device::where('id_user', $currentUser->id)->count()) < $limit){
                 // create callback 
                 $callback = Http::post('https://wabot.pesanku.id/callback', [
                         'url' => 'https://api.pesanku.id/api/message/receive' ,

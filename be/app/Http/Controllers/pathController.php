@@ -15,18 +15,18 @@ class pathController extends Controller
 {
 
     public function createPathFe(Request $request){
-        DB::table('path_fe_table')->insert([
+        DB::table('path_table')->insert([
             'id_rule' => $request->id_rule,
-            'id_parent' => $request->id_parent,
-            'id_node' => $request->id_node,
-            'tipe' => $request->tipe,
+            'id_currentNode' => $request->id_currentNode,
+            'id_nextNode' => $request->id_nextNode,
+            'type' => $request->type,
             'title' => $request->title,
-            'key_event' => $request->key_event,
+            'key' => $request->key,
         ]);
         return response()->json([
             'data'=>$request->all(),
             'status' => 200,
-            'message' => 'Path successfully inserted',
+            'message' => 'Path successfully inserted asdasdsadsasad',
         ]);
     }
 
@@ -98,7 +98,7 @@ class pathController extends Controller
             $path = path::where('id_currentNode', $id)->get(); 
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess ",            
                 "data" => $path,
             ], 200);
         }else{
@@ -127,10 +127,10 @@ class pathController extends Controller
     }
     public function getPathByRule($id)
     {
-
-        if((path::where('id_rule', $id)->count())>0){
+        $node = DB::table('path_table')->orderBy("id","asc")->get();
+        if(sizeof($node) > 0){
             $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
-            $node = DB::table('path_fe_table')->orderBy("id","asc")->get();
+           
             $nodeNew = DB::table('path_table')->orderBy("id","desc")->get();
             foreach($node as $row){
                 $this->recursiveNode($row);
@@ -143,12 +143,33 @@ class pathController extends Controller
                 "nodeNew"=>$nodeNew,
             ], 200);
         }else{
-            return response()->json([
+             return response()->json([
                 "status" => 200,
                 "message" => "Path not found",
                 "data" => [],
             ], 200);
         }
+        // if((path::where('id_rule', $id)->count())>0){
+        //     $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
+           
+        //     $nodeNew = DB::table('path_table')->orderBy("id","desc")->get();
+        //     foreach($node as $row){
+        //         $this->recursiveNode($row);
+        //     }
+        //     return response()->json([
+        //         "status" => 200,
+        //         "message" => "Succeess",            
+        //         "data" => $path,
+        //         "node"=>$node,
+        //         "nodeNew"=>$nodeNew,
+        //     ], 200);
+        // }else{
+        //     return response()->json([
+        //         "status" => 200,
+        //         "message" => "Path not found",
+        //         "data" => $node,
+        //     ], 200);
+        // }
     }
     public function updatePath(Request $request)
     {

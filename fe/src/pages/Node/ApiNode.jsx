@@ -131,7 +131,7 @@ class ApiNode extends Component {
                 console.log(result)
                 if(result.status === 200) {
                     this.fetchNow();
-                    // $('#formModal').modal('toggle');
+                    $('#formModal').modal('toggle');
                     toast.success(`Add API Node Success!`, {
                         position: toast.POSITION.TOP_CENTER
                     });
@@ -139,7 +139,7 @@ class ApiNode extends Component {
                     this.setState({
                         isLoading: false
                     }, () => {
-                        // $('#formModal').modal('toggle');
+                        $('#formModal').modal('toggle');
                         toast.error(`Add API Node Failed (Status Code ${result.status})`, {
                             position: toast.POSITION.TOP_CENTER
                         });
@@ -227,10 +227,10 @@ class ApiNode extends Component {
             isLoading: true
         }, () => {
             const dataForm = new URLSearchParams({
-                id_device: id
+                id_api: id
             })
 
-            NodeApi.delete(dataForm).then((result) => {
+            NodeApi.deleteApiNode(id,dataForm).then((result) => {
                 if(result.status === 200) {
                     this.fetchNow();
                     toast.success(`Delete Device Success!`, {

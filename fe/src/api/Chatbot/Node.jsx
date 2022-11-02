@@ -1,13 +1,12 @@
 import fetchNow from '../_Fetch.jsx';
 
 const RuleAPI = {
-    createFe: (body) => {
+     createFe: (body) => {
         return fetchNow('/nodeFe', 'POST', body);
     },
      createPathDefaultFe: (body) => {
         return fetchNow('/pathFe', 'POST', body);
     },
-
     get: () => {
         return fetchNow('/node', 'GET');
     },
@@ -17,14 +16,16 @@ const RuleAPI = {
     create: (body) => {
         return fetchNow('/node', 'POST', body);
     },
-    
-    
     update: (id, body) => {
         return fetchNow('/node/' + id, 'PUT', body);
     },
-    delete: (id) => {
-        return fetchNow('/node/' + id, 'DELETE');
+    delete: (id,body) => {
+        return fetchNow('/node/' + id, 'DELETE', body);
     },
+    // delete: (id) => {
+        
+    //     return fetchNow('/node/' + id, 'DELETE');
+    // },
     getPathByRule: (id) => {
         return fetchNow('/path/' + id, 'GET');
     },
@@ -34,7 +35,6 @@ const RuleAPI = {
     createPathDefault: (body) => {
         return fetchNow('/path', 'POST', body);
     },
-   
     updatePath: (id, body)=> {
         return fetchNow('/path/' + id , 'PUT', body);
     },
@@ -48,6 +48,7 @@ const RuleAPI = {
         return fetchNow('/path/api', 'POST', body);
     },
     getAPINode: (id) => {
+        console.log("####################",id)
         return fetchNow('/node/api/' + id, 'GET');
     },
     getEformNode: (id) => {

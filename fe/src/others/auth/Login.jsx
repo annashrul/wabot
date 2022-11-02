@@ -52,9 +52,7 @@ class Login extends Component {
             dataForm.append("password", this.state.data.password.data);
 
             AuthAPI.login(dataForm).then((result) => {
-                console.log(result);
                 if(result.status === 200) {
-                
                     /* Login Success */
                     localStorage.setItem('token', result.data.access_token);
                     window.location.reload();

@@ -90,6 +90,7 @@ class apiNodeController extends Controller
     public function getNodeAPI(Request $request)
     {
         $currentUser = Auth::user();
+        $checkApi=api::where('id_user', $currentUser->id)->count();
         if((api::where('id_user', $currentUser->id)->count()) > 0){
             if((api::where('id_device', $request->id_device)->count()) > 0){
                 $data = api::where('id_user', $currentUser->id)->where('id_device', $request->id_device)->get();
@@ -110,7 +111,7 @@ class apiNodeController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'There is no user found',
-                'data' => [],
+                'data' => $checkApi,
             ], 200);    
         }     
     }

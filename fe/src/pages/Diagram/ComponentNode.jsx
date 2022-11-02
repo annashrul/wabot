@@ -25,6 +25,7 @@ class ComponentNode extends Component {
       padding: 10px;
       display: inline-block;
       font-weight: bold;
+      font-size:11px;
       color: #2c323f;
       background-color: #eeeeee;
       border-radius: 7px;
@@ -42,7 +43,7 @@ class ComponentNode extends Component {
               this.props.callback(this.props.obj);
             }}
           >
-            {this.props.obj.key_event} - {desc}
+            {this.props.obj.key} - {desc}
             <button
               style={{
                 border: "0px",
@@ -71,11 +72,11 @@ class ComponentNode extends Component {
                 // type: res.type,
                 // children: res.children,
                 id: res.id,
-                id_parent: res.id_parent,
-                id_node: res.id_node,
+                id_currentNode: res.id_currentNode,
+                id_nextNode: res.id_nextNode,
                 title: res.title,
-                key_event: res.key_event,
-                tipe: res.tipe,
+                key: res.key,
+                type: res.type,
                 children: res.children,
               }}
               callback={(id) => {

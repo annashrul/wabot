@@ -11,7 +11,7 @@ class nodeController extends Controller
     public function createNodeFe(Request $request){
         $id_node = DB::table('node_table')->insertGetId([
             'title' => $request->title,
-            'response' => $request->response
+            'response' => $request->response,
         ]);
         return response()->json([
             'data'=>$id_node,
