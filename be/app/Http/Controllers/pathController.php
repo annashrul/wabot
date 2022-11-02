@@ -26,7 +26,7 @@ class pathController extends Controller
         return response()->json([
             'data'=>$request->all(),
             'status' => 200,
-            'message' => 'Path successfully inserted asdasdsadsasad',
+            'message' => 'Path successfully inserted',
         ]);
     }
 
