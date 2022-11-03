@@ -27,20 +27,20 @@ class mediaMessageController extends Controller
 
         
         $file->move($destinationPath, $filename);
-        print_r($id_media);
-        // if(!empty($id_media)){
-        //     return response()->json([
-        //         'status' => 200,
-        //         'message' => 'Media successfully inserted',
-        //         'data' => $media,
-        //     ]);
-        // }else{
-        //     return response()->json([
-        //         'status' => 400,
-        //         'message' => 'Failed',
-        //         'data' => $media,
-        //     ]);
-        // }
+//        print_r($id_media);
+         if(!empty($id_media)){
+             return response()->json([
+                 'status' => 200,
+                 'message' => 'Media successfully inserted',
+                 'data' => $media,
+             ]);
+         }else{
+             return response()->json([
+                 'status' => 400,
+                 'message' => 'Failed',
+                 'data' => $media,
+             ]);
+         }
     }
 
     

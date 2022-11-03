@@ -94,7 +94,7 @@ class Sessions extends Component {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 7000,
             });
-        }, 15000);
+        }, 15000000);
 
         $('#exampleModal').on('hidden.bs.modal', function (e) {
             socket.disconnect();
@@ -368,11 +368,12 @@ class Sessions extends Component {
                                 <div className="card-body">
                                     <div className="row d-flex justify-content-between align-items-center mx-0 mb-4">
                                         <h5 className="mt-1">Your Device</h5>
-                                        {
+                                        {/* {
                                             this.state.data.length >= 3
                                             ?   <span title="You Can Only Add 3 Devices"><button disabled className="btn btn-success">Add Device</button></span>
                                             :   <button className="btn btn-success" onClick={this.showModalAdd}>Add Device</button>
-                                        }
+                                        } */}
+                                        <button className="btn btn-success" onClick={this.showModalAdd}>Add Device</button>
                                     </div>
                                     <table className={`table table-striped ${Style.tableResponsive}`} id="myTable">
                                         <thead>

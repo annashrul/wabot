@@ -77,12 +77,12 @@ class Diagram extends Component {
       node,
       roots = [],
       i;
+
     for (i = 0; i < list.length; i += 1) {
       map[list[i].id_nextNode] = i;
       list[i].color = "";
       list[i].children = [];
     }
-
     for (i = 0; i < list.length; i += 1) {
       node = list[i];
       if (parseInt(node.id_currentNode) !== 1) {
@@ -180,8 +180,6 @@ class Diagram extends Component {
             this.fetchNow();
             toast.success(`Chatbot Path Created Succesfully`, {
               position: toast.POSITION.TOP_CENTER,
-            },()=>{
-              console.log("done")
             });
           })
         });
@@ -256,17 +254,13 @@ class Diagram extends Component {
         parrentNode: filterNode.length > 0 ? filterNode[0] : e,
       },
       () => {
-         console.log("currentNode",e);
-         console.log("parrentNode",this.state.parrentNode);
         $("#modal-create").modal("show");
       }
     );
   }
 
   fetchNow() {
-    toast.success(`Chatbot Path Created Succesfully`, {
-      position: toast.POSITION.TOP_CENTER,
-    });
+   
     this.setState({ isLoading: true, loadingTitle:"checking data rule", currentNode:null, parrentNode:null}, () => {
       RuleAPI.get().then((res) => {
         let rule = [];
@@ -283,7 +277,6 @@ class Diagram extends Component {
           this.setState({ rule,loadingTitle:"checking data path", currentNode:null, parrentNode:null},()=>{
             // this.retrieveAPINode();
             NodeAPI.getPathByRule(parId).then((result) => {
-              console.log(result);
               if(result.node.length>0){
                 let data = [];
                 if (result.status === 200) {
@@ -292,14 +285,27 @@ class Diagram extends Component {
                   data.map((row, key) => {
                     Object.assign(row, { children: [] });
                   });
-                  const check = this.convertArrayFlatToTree(data);
-                  this.setState({ dataTree: check,loadingTitle:"data siap dikonsumsi"}, () => {
-                    setTimeout(()=>{
-                      this.setState({isLoading:false, loadingTitle:""})
-                       $("#modal-create").modal("hide");
-                    },300)
-                  });
+                  if(data.length>1){
+                    const check = this.convertArrayFlatToTree(data);
+                    this.setState({ 
+                      dataTree: check,
+                      loadingTitle:"data siap dikonsumsi"}, () => {
+                      setTimeout(()=>{
+                        this.setState({isLoading:false, loadingTitle:""})
+                        $("#modal-create").modal("hide");
+                      },300)
+                    });
+                  }else{
+                    const stateTree=this.state.dataTree;
+                    const mergedArray = [ ...stateTree, ...data ]
+                    const check = this.convertArrayFlatToTree(mergedArray);
+                    this.setState({dataTree:check,isLoading:false, loadingTitle:""});
+                  }
+                  
                 }
+              }else{
+                this.setState({isLoading:false, loadingTitle:""})
+               
               }
             });
           });
@@ -310,7 +316,6 @@ class Diagram extends Component {
 
   componentDidMount() {
     this.fetchNow();
-    // this.retrieveEformNode();
     
   }
   handleZoom(e) {
@@ -457,7 +462,7 @@ class Diagram extends Component {
             <div className="modal-dialog modal-md  modal-dialog-centered" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Tambah Path</h5>
+                  <h5 className="modal-title">Form Path</h5>
                   <button
                     onClick={(e)=>{
                       this.handleCloseModal(null,()=>{
@@ -611,9 +616,9 @@ class Diagram extends Component {
                         data-dismiss="modal"
                         className="btn btn-outline-success"
                       >
-                        Cancel
+                        Kembali
                       </button>
-                      <button className="btn btn-success">Create</button>
+                      <button className="btn btn-success">Simpan</button>
                   </div>
                 </form>
               </div>

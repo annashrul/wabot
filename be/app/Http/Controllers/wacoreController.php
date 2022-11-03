@@ -65,6 +65,7 @@ class wacoreController extends Controller
         // $string = file_get_contents(base_path("app/Http/Controllers/contact.json"));
         // $response = json_decode($string, true);
         // loop
+//        return $getDevice->data;
         foreach ($response['items'] as $key => $value) {
             // find by jid
             if((!empty($value['name'])) || ($value['name']== "2")){

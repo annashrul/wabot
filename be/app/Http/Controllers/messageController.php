@@ -4,23 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\deviceController;
-use App\Http\Controllers\eFormController;
-use App\Http\Controllers\ruleController;
-use App\Http\Controllers\pathController;
-use App\Http\Controllers\nodeController;
-use App\Http\Controllers\conversationController;
-use App\Http\Controllers\categoryController;
-use App\Http\Controllers\contactController;
-use App\Http\Controllers\apiNodeController;
-use App\Http\Controllers\scheduleMessageController;
-use App\Http\Controllers\mediaMessageController;
+use App\Models\path;
 
 use App\Models\receive_message;
 use App\Models\conversation;
@@ -29,6 +16,7 @@ use App\Models\message;
 use App\Models\varStorage;
 use App\Models\mediaStorage;
 use Illuminate\Support\Facades\DB;
+use App\Models\rule;
 
 class messageController extends Controller
 {
@@ -186,14 +174,17 @@ class messageController extends Controller
 
         if(!empty($isgroup->data)){
             $target = 'group';
-        }elseif (!empty($iscontact->data)){
+        }
+        elseif (!empty($iscontact->data)){
             $target = 'contact';
-        }else{
+        }
+        else{
             $target = 'default';
         }
 
         // check timestamp conversation
-        if((conversation::where('id_device', $getDevice->data[0]->id)->where('sender_jid', $request->meta['remoteJid'])->count()) > 0){
+        $checkConversation=conversation::where('id_device', $getDevice->data[0]->id)->where('sender_jid', $request->meta['remoteJid'])->count() > 0;
+        if($checkConversation){
             $data = conversation::where('id_device', $getDevice->data[0]->id)->where('sender_jid', $request->meta['remoteJid'])->get()->toArray();
             $updateTime = strtotime($data[0]['updated_at']);
             $interval = date('Y-m-dh:i',strtotime('+15 minutes', $updateTime));
@@ -204,22 +195,20 @@ class messageController extends Controller
                 $deleteConversation = $conversation->deleteConversation($data[0]['id']);
             }
         }
-
+        $checkConversation=conversation::where('id_device', $getDevice->data[0]->id)->where('sender_jid', $request->meta['remoteJid'])->count() > 0;
 
         // check conversation
-        if((conversation::where('id_device', $getDevice->data[0]->id)->where('sender_jid', $request->meta['remoteJid'])->count()) > 0){
+        if($checkConversation){
             $data = conversation::where('id_device', $getDevice->data[0]->id)->where('sender_jid', $request->meta['remoteJid'])->get()->toArray();
-
             // get path with id
             $path = new pathController;
             $getPath = $path->getPathByID($data[0]['id_path']);
             $getPath = $getPath->getData();
 
             // check branch, count path with same id next node
+            // return $data;
             $pathByCurrentNode = $path->getPathByIdCurrentNode($getPath->data[0]->id_nextNode);
             $pathByCurrentNode = $pathByCurrentNode->getData();
-
-
 
             if(count($pathByCurrentNode->data) > 1){
                 // condition with branch
@@ -233,7 +222,8 @@ class messageController extends Controller
 
                     }
                 }
-            }else if(count($pathByCurrentNode->data) == 1){
+            }
+            else if(count($pathByCurrentNode->data) == 1){
                 if(is_null($pathByCurrentNode->data[0]->key)){
                     $next = $pathByCurrentNode->data[0];
                 }else{
@@ -243,7 +233,8 @@ class messageController extends Controller
                         $next = $getPath->data[0];
                     }
                 }
-            }else{
+            }
+            else{
                 $next = $path->getPathInit($getPath->data[0]->id_rule)->getData();
                 $next = $next->data[0];
             }
@@ -375,24 +366,17 @@ class messageController extends Controller
                 $cek = $this->sendMessage($data);
             }
             return response()->json($cek);
-        }else{
+        }
+        else{
+
             // check rule
-            $rule = new ruleController;
-            $getRule = $rule->getRuleByDevice($getDevice->data[0]->id);
-            $getRule = $getRule->getData();
-            $thisrule = $getRule->data[0];
-
-            // // check target
-            // foreach ($getRule->data as $key => $value) {
-            //     if($target == $value->target){
-            //         $thisrule = $value;
-            //     }
-            // }
-            // get path with id rule and currentNode = 1
-            $path = new pathController;
-            $pathByRule = $path->getPathByRule($thisrule->id)->getData();
-
-            foreach ($pathByRule->data as $key => $value) {
+            $rule = rule::where('id_device', $getDevice->data[0]->id)->get();
+            $path = path::where('id_rule', $getDevice->data[0]->id)->get();
+            $thisrule = $rule[0];
+            if(sizeof($path) < 1){
+                $path = path::where('id', 1)->get();
+            }
+            foreach ($path as $key => $value) {
                 if($value->id_currentNode == 1){
                     $thispath = $value;
                 }
@@ -485,7 +469,8 @@ class messageController extends Controller
                     'message' => $pesan,
                     'type' => $target,
                 ]);
-            }else{
+            }
+            else{
                 // get node response
                 $node = new nodeController;
                 $currentNode = $node->getNodeById($thispath->id_nextNode);
@@ -506,7 +491,6 @@ class messageController extends Controller
                     'recipient' => $sender_number,
                     'id_device' => $getDevice->data[0]->id,
                     'message' => $currentNode->data[0]->response,
-                    'id_device' => $getDevice->data[0]->id,
                     'type' => $target,
                 ]);
             }

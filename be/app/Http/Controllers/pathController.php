@@ -133,15 +133,12 @@ class pathController extends Controller
             SELECT path_table.*, node_table.response, node_table.title node_title
             FROM path_table
             JOIN node_table ON node_table.id=path_table."id_nextNode"
-            WHERE path_table."key" '.$notIn.'
+            WHERE path_table."key" '.$notIn.' and id_rule='.$id.' OR path_table.id=1
             order by path_table."id_currentNode", path_table."key" asc
         ');
         // $node = DB::table('path_table')->orderBy("id","asc")->get();
         if(sizeof($node) > 0){
             $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
-            // foreach($node as $row){
-            //     $this->recursiveNode($row);
-            // }
             return response()->json([
                 "status" => 200,
                 "message" => "Succeess",            
@@ -149,11 +146,13 @@ class pathController extends Controller
                 "node"=>$node,
                 // "bangsat"=>$newNode
             ], 200);
-        }else{
+        }
+        else{
              return response()->json([
                 "status" => 200,
                 "message" => "Path not found",
                 "data" => [],
+                "node" => [],
             ], 200);
         }
       
