@@ -52,8 +52,7 @@ message : pesan
 type : (group, message, broadcast)
 -------
 
-API Get Contact
-/wa-md/{id}/get-contact
+API Get Contact /wa-md/{id}/get-contact
 parameter : 
 limit : 10 (limit data perhalaman)
 page : 1 (halaman)
@@ -61,6 +60,7 @@ type : (group, message, broadcast)
 
 API Send Message Custom
 /wa-md/{id}/send-message-custom
+
 --CUSTOM 1
 POST : https://wabot.pesanku.id/wa-md/2ew3mnu2stfl602xhju/send-message-custom
 PARAMATER :
@@ -71,6 +71,7 @@ PARAMATER :
         "text": "oh hello there"
     }
 }
+
 --CUSTOM 2
 POST : https://wabot.pesanku.id/wa-md/2ew3mnu2stfl602xhju/send-message-custom
 PARAMATER :
