@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/keyed-db": "github:adiwajshing/keyed-db",
     "@nestjs/bull": "^0.3.1",
     "@nestjs/common": "^7.6.15",
     "@nestjs/config": "^0.6.3",
@@ -54,7 +55,7 @@
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.22",
     "@types/multer": "^1.4.7",
-    "@types/node": "^14.14.36",
+    "@types/node": "^14.18.33",
     "@types/socket.io": "^3.0.2",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.19.0",

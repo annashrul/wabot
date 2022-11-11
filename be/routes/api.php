@@ -33,6 +33,7 @@ use App\Http\Controllers\mediaMessageController;
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/user', [AuthController::class, 'register']);
 Route::post('/auth/refresh', [AuthController::class, 'refresh']);
+Route::post('/auth/updateUrlApi', [wacoreController::class, 'updateUrlApi']);
 
 Route::group([
     'middleware' => 'admin.auth',

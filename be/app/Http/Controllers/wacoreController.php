@@ -7,9 +7,21 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\deviceController;
 use App\Models\contactWA;
 use App\Models\groupBroadcastWA;
+use Illuminate\Support\Facades\DB;
 
 class wacoreController extends Controller
-{
+{   
+    public function updateUrlApi(Request $request){
+        $data=['url'=>$request->url];
+        DB::table('url_api_table')->update($data);
+        return $data;
+    }
+
+    public function getUrlApi(){
+        $results = DB::select('select * from url_api_table')[0]->url;
+        return $results;
+    }
+
     public function getContact(Request $request)
     {
         // get device by id
@@ -44,7 +56,7 @@ class wacoreController extends Controller
 
     public function syncContact(Request $request)
     {
-
+        $url = $this->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device); 
@@ -59,7 +71,7 @@ class wacoreController extends Controller
         }
         // get all contact
 
-       $response = Http::timeout(60)->get('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/get-contact?limit=100000&page=1');
+       $response = Http::timeout(60)->get($url.'wa/'.$getDevice->data[0]->uid.'/get-contact?limit=100000&page=1');
      
         // response sementara
         // $string = file_get_contents(base_path("app/Http/Controllers/contact.json"));
@@ -145,6 +157,7 @@ class wacoreController extends Controller
 
     public function syncGroup(Request $request)
     {
+         $url = $this->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device); 
@@ -158,7 +171,7 @@ class wacoreController extends Controller
             ], 200);
         }
          // get all contact
-        $response = Http::timeout(60)->get('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/get-group?limit=100000&page=1');
+        $response = Http::timeout(60)->get($url.'wa/'.$getDevice->data[0]->uid.'/get-group?limit=100000&page=1');
         // response sementara
         // $string = file_get_contents(base_path("app/Http/Controllers/group.json"));
         // $response = json_decode($string, true);
@@ -248,6 +261,7 @@ class wacoreController extends Controller
 
     public function syncBroadcast(Request $request)
     {
+        $url = $this->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device); 
@@ -262,7 +276,7 @@ class wacoreController extends Controller
         }
 
         // get all contact
-        $response = Http::timeout(60)->get('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/get-broadcast?limit=100000&page=1');
+        $response = Http::timeout(60)->get($url.'wa/'.$getDevice->data[0]->uid.'/get-broadcast?limit=100000&page=1');
         // response sementara
         // $string = file_get_contents(base_path("app/Http/Controllers/broadcast.json"));
         // $response = json_decode($string, true);

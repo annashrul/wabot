@@ -7,13 +7,16 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\device;
 use App\Models\User;
+use App\Http\Controllers\wacoreController;
 
 class deviceController extends Controller
 {
     public function newDevice(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
 
-        $response = Http::post('https://wabot.pesanku.id/device', [
+        $response = Http::post($apiDb.'device', [
                         'phone' => $request->phone,
                         'name' => $request->name,
                         'type' => $request->type
@@ -23,8 +26,8 @@ class deviceController extends Controller
             $limit=30;
             if((device::where('id_user', $currentUser->id)->count()) < $limit){
                 // create callback 
-                $callback = Http::post('https://wabot.pesanku.id/callback', [
-                        'url' => 'https://api.pesanku.id/api/message/receive' ,
+                $callback = Http::post($apiDb.'callback', [
+                        'url' => $apiDb.'api/message/receive' ,
                         'device_id' => $response['id'],
                 ]);
 
@@ -72,6 +75,8 @@ class deviceController extends Controller
 
     public function getDevice()
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         $currentUser = Auth::user();
         if((device::where('id_user', $currentUser->id)->count()) > 0){
             $data = device::where('id_user', $currentUser->id)->get();
@@ -88,7 +93,7 @@ class deviceController extends Controller
             ], 200);    
         }
 
-        $res = Http::get('https://wabot.pesanku.id/device');
+        $res = Http::get($apiDb.'device');
         //echo $res;
         $response = (array)json_decode($res);
         $data = (array)json_decode($data);
@@ -136,6 +141,8 @@ class deviceController extends Controller
 
     public function updateDevice(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         $currentUser = Auth::user();
         if((device::where('id', $request->id)->where('id_user', $currentUser->id)->count()) > 0){
             $device = device::find($request->id);
@@ -147,7 +154,7 @@ class deviceController extends Controller
             $device->type = is_null($request->type) ? $device->type : $request->type;
             $device->save();
 
-            $response = Http::patch('https://wabot.pesanku.id/device/'. $device->uid, [
+            $response = Http::patch($apiDb.'device/'. $device->uid, [
                         'phone' => $device->phone_number,
                         'name' => $device->name,
                         'type' => $device->type,
@@ -177,17 +184,18 @@ class deviceController extends Controller
 
     public function deleteDevice(Request $request)
     {
-
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         $currentUser = Auth::user();
         if((device::where('id_user', $currentUser->id)->count()) > 0) {
             if((device::where('id', $request->id_device)->count())>0){
                 $device = device::find($request->id_device);
                 $device->delete();                
                 
-                $response = Http::delete('https://wabot.pesanku.id/device/'. $device->uid, [
+                $response = Http::delete($apiDb.'device/'. $device->uid, [
                         'name' => $device->name,
                     ]);
-                $callback = Http::delete('https://wabot.pesanku.id/callback/'. $device->id_callback);
+                $callback = Http::delete($apiDb.'callback/'. $device->id_callback);
                 if(($response->successful()) && ($callback->successful())){
                     return response()->json([
                         "status" => 200,

@@ -17,6 +17,7 @@ use App\Models\varStorage;
 use App\Models\mediaStorage;
 use Illuminate\Support\Facades\DB;
 use App\Models\rule;
+use App\Http\Controllers\wacoreController;
 
 class messageController extends Controller
 {
@@ -132,7 +133,7 @@ class messageController extends Controller
     //==================================================
     public function receiveMessage(Request $request)
     {
-
+        
         // preprocess receiver number
         $patern = '/((\@.*))/';
         $sender_number = preg_replace($patern, '', $request->meta['remoteJid']);
@@ -372,7 +373,8 @@ class messageController extends Controller
             // check rule
             $rule = rule::where('id_device', $getDevice->data[0]->id)->get();
             $path = path::where('id_rule', $getDevice->data[0]->id)->get();
-            $thisrule = $rule[0];
+            // return response()->json($getDevice->data);
+            // $thisrule = $rule[0];
             if(sizeof($path) < 1){
                 $path = path::where('id', 1)->get();
             }
@@ -593,6 +595,8 @@ class messageController extends Controller
     //--------------------------------------- SEND TEXT MESSAGE TO ALL -----------------------------------
     public function sendMessageAll(Request $request)
     {
+          $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get current time
         $current_date_time = Carbon::now()->toDateTimeString();
         // get device by id
@@ -830,7 +834,7 @@ class messageController extends Controller
                         'message' => $request->message,
                         'type' => 'message',
                     ];
-                    $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                    $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                 }
                 // type = group
@@ -840,7 +844,7 @@ class messageController extends Controller
                         'message' => $request->message,
                         'type' => 'group',
                     ];
-                    $response2 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data2);
+                    $response2 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data2);
 
                 }
                 // type = broadcast
@@ -850,7 +854,7 @@ class messageController extends Controller
                         'message' => $request->message,
                         'type' => 'broadcast',
                     ];
-                    $response3 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data3);
+                    $response3 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data3);
                 }
 
                 if((empty($response1)) && (empty($response2)) && (empty($response3))){
@@ -880,6 +884,8 @@ class messageController extends Controller
     //------------------------------------------SEND MEDIA MESSAGE--------------------------------------------------
     public function sendMediaMessage(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get current time
         $current_date_time = Carbon::now()->toDateTimeString();
         // get device by id
@@ -1126,7 +1132,7 @@ class messageController extends Controller
                 $result1 = [];
                 $result2 = [];
                 $result3 = [];
-                $url = 'https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-media';
+                $url = $apiDb.'wa/'.$getDevice->data[0]->uid.'/send-media';
                 // type = message (contact, contact WA, number, category)
 
                 if(!empty($recipient_final)){
@@ -1153,7 +1159,7 @@ class messageController extends Controller
                             'message' => $request->message,
                             'type' => 'message',
                         ];
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                     }
                 }
@@ -1182,7 +1188,7 @@ class messageController extends Controller
                             'message' => $request->message,
                             'type' => 'message',
                         ];
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                     }
                 }
@@ -1212,7 +1218,7 @@ class messageController extends Controller
                             'message' => $request->message,
                             'type' => 'message',
                         ];
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                     }
                 }
@@ -1244,6 +1250,8 @@ class messageController extends Controller
     //------------------------------------------SEND MESSAGE BY CSV---------------------------------------------------
     public function sendMessageByCSV(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get current time
         $current_date_time = Carbon::now()->toDateTimeString();
         // get device by id
@@ -1402,7 +1410,7 @@ class messageController extends Controller
                 }
 
                 // send to wa core
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message-multiple', $objMessage);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message-multiple', $objMessage);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1459,6 +1467,8 @@ class messageController extends Controller
     //----------------------------------------SEND MESSAGE TO CONTACT--------------------------------------------------
     public function sendMessageContact(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device);
@@ -1521,7 +1531,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1541,7 +1551,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1570,6 +1580,8 @@ class messageController extends Controller
     //------------------------------------------SEND MESSAGE BY TO GROUP------------------------------------------------
     public function sendMessageGroup(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device);
@@ -1623,7 +1635,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'group',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1643,7 +1655,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'group',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1671,6 +1683,8 @@ class messageController extends Controller
     //------------------------------------------SEND MESSAGE TO BROADCAST LIST-----------------------------------------------
     public function sendMessageBroadcast(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device);
@@ -1724,7 +1738,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'broadcast',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1744,7 +1758,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'broadcast',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1772,6 +1786,8 @@ class messageController extends Controller
     //------------------------------------------SEND MESSAGE TO CATEGORY---------------------------------------------------
     public function sendMessageCategory(Request $request)
     {
+         $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device);
@@ -1829,7 +1845,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1849,7 +1865,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1875,6 +1891,8 @@ class messageController extends Controller
 
     public function sendMessageCategoryIn($request)
     {
+         $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device);
@@ -1932,7 +1950,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1952,7 +1970,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -1978,6 +1996,8 @@ class messageController extends Controller
     //------------------------------------------SEND MESSAGE TO CONTACT WEB-------------------------------------------------
     public function sendMessageContactWeb(Request $request)
     {
+         $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // get device by id
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device);
@@ -2032,7 +2052,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -2052,7 +2072,7 @@ class messageController extends Controller
                     'message' => $request->message,
                     'type' => 'message',
                 ];
-                $response = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data);
+                $response = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data);
                 if ($response->successful()) {
                     return response()->json([
                         'status' => 200,
@@ -2086,6 +2106,8 @@ class messageController extends Controller
 
     public function sendMessage($request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // save to message table
         $message = new message;
         $message->message = $request->message;
@@ -2125,11 +2147,10 @@ class messageController extends Controller
             $url[]=$out[0];
         }
         $buttons=[];
-        $link='https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message';
+        $link=$apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message';
         $newMsg=$request->message;
-//        $urlArr=[];
         if(count($url)>0){
-            $link='https://wabot.pesanku.id/wa-md/'.$getDevice->data[0]->uid.'/send-message-custom';
+            $link=$apiDb.'wa-md/'.$getDevice->data[0]->uid.'/send-message-custom';
             for($i=0;$i<count($url);$i++){
                 for($j=0;$j<count($url[$i]);$j++){
                     $urlArr = explode("-",$url[$i][$j]);
@@ -2155,7 +2176,6 @@ class messageController extends Controller
                 "headerType"=>1,
             ];
         }
-
         $response = Http::post($link, $data);
         if ($response->successful()) {
             return response()->json([
@@ -2176,6 +2196,9 @@ class messageController extends Controller
 
     public function sendMessageAllOpen(Request $request)
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
+        
         // get current time
         $current_date_time = Carbon::now()->toDateTimeString();
 
@@ -2416,7 +2439,7 @@ class messageController extends Controller
                         'message' => $request->message,
                         'type' => 'message',
                     ];
-                    $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                    $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                 }
                 // type = group
@@ -2426,7 +2449,7 @@ class messageController extends Controller
                         'message' => $request->message,
                         'type' => 'group',
                     ];
-                    $response2 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data2);
+                    $response2 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data2);
 
                 }
                 // type = broadcast
@@ -2436,7 +2459,7 @@ class messageController extends Controller
                         'message' => $request->message,
                         'type' => 'broadcast',
                     ];
-                    $response3 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data3);
+                    $response3 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data3);
                 }
                 if((empty($response1)) && (empty($response2)) && (empty($response3))){
                     return response()->json([
@@ -2465,6 +2488,8 @@ class messageController extends Controller
     //------------------------------------------SEND MEDIA MESSAGE OPEN API--------------------------------------------------
     public function sendMediaMessageOpen(Request $request)
     {
+          $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
 
         // get user
         $user = new AuthController;
@@ -2597,7 +2622,7 @@ class messageController extends Controller
                 $result1 = [];
                 $result2 = [];
                 $result3 = [];
-                $url = 'https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-media';
+                $url = $apiDb.'wa/'.$getDevice->data[0]->uid.'/send-media';
                 // type = message (contact, contact WA, number, category)
 
 
@@ -2625,7 +2650,7 @@ class messageController extends Controller
                             'message' => $request->message,
                             'type' => 'message',
                         ];
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                     }
                 }
@@ -2654,7 +2679,7 @@ class messageController extends Controller
                             'message' => $request->message,
                             'type' => 'message',
                         ];
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                     }
                 }
@@ -2684,7 +2709,7 @@ class messageController extends Controller
                             'message' => $request->message,
                             'type' => 'message',
                         ];
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                     }
                 }

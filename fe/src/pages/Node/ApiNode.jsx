@@ -64,6 +64,8 @@ class ApiNode extends Component {
             NodeApi.getAPINode(this.state.isi.id_device).then((result) => {
                 let data = [];
 
+                console.log("################",result)
+
                 if(result.status === 200) {
                     data = result.data;
                 }
@@ -292,6 +294,7 @@ class ApiNode extends Component {
     }
 
     render() { 
+        console.log("this.state.data",this.state.data);
         return (
             <React.Fragment>
                 <Loading show={this.state.isLoading} />
@@ -412,7 +415,7 @@ class ApiNode extends Component {
                                         </thead>
                                         <tbody>
                                             {
-                                                this.state.data.length <= 0 &&
+                                                this.state.data.length <= 0 || this.state.data === 0 &&
                                                 (
                                                     <tr>
                                                         <td colSpan={6} align="middle">There is No Data</td>
@@ -420,7 +423,7 @@ class ApiNode extends Component {
                                                 )
                                             }
                                             {
-                                                this.state.data.map((value, index) => {
+                                                this.state.data.length> 0 || this.state.data!==0 && this.state.data.map((value, index) => {
                                                     
 
                                                     return (

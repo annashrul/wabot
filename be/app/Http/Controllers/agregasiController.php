@@ -16,7 +16,7 @@ class agregasiController extends Controller
     public function getTotal(Request $request)
     {
         $currentUser = Auth::user();
-        // get device per user
+        //   device per user
         $device = new deviceController;
         $getDevice = $device->getDeviceDB()->getData();
         if(empty($getDevice->data)){

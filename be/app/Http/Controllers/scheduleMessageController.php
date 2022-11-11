@@ -15,7 +15,7 @@ use App\Http\Controllers\mediaMessageController;
 use App\Models\schedule_message;
 use App\Models\message;
 use App\Models\varStorage;
-
+use App\Http\Controllers\wacoreController;
 use Carbon\Carbon;
 
 class scheduleMessageController extends Controller
@@ -319,6 +319,8 @@ class scheduleMessageController extends Controller
 
     public function checkSchedule()
     {
+        $getUrl = new wacoreController;
+        $apiDb = $getUrl->getUrlApi();
         // inisialisasi waktu sekarang dan 1 menit sebelumnya
         $now = strtotime(Carbon::now()->toDateTimeString());
         $back = strtotime(Carbon::now()->subMinutes(1)->toDateTimeString());
@@ -421,7 +423,7 @@ class scheduleMessageController extends Controller
                         }
 
                         // send to wa core  
-                        $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message-multiple', $objMessage);
+                        $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message-multiple', $objMessage);
                         $data1 = $objMessage;
                         
 
@@ -444,7 +446,7 @@ class scheduleMessageController extends Controller
                         }
 
                         // send to api send message
-                        $url = 'https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-media';
+                        $url = $apiDb.'wa/'.$getDevice->data[0]->uid.'/send-media';
                         // type = message (contact, contact WA, number, category)
                         if(!empty($messageContact)){  
                             $cFile = curl_file_create($pathFile, $mime);
@@ -514,7 +516,7 @@ class scheduleMessageController extends Controller
                                         'message' => $getMessage->data[0]->message,
                                         'type' => 'message',     
                             ];  
-                            $response1 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                            $response1 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
 
                            
                         }
@@ -524,7 +526,7 @@ class scheduleMessageController extends Controller
                                         'message' => $getMessage->data[0]->message,
                                         'type' => 'message',     
                             ];  
-                            $response2 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                            $response2 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
                            
                         }
                         if(!empty($messageBroadcast)){
@@ -533,7 +535,7 @@ class scheduleMessageController extends Controller
                                         'message' => $getMessage->data[0]->message,
                                         'type' => 'message',     
                             ];  
-                            $response3 = Http::post('https://wabot.pesanku.id/wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
+                            $response3 = Http::post($apiDb.'wa/'.$getDevice->data[0]->uid.'/send-message', $data1);
                            
                         }
 

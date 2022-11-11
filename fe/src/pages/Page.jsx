@@ -30,13 +30,10 @@ class Page extends Component {
         switch (name) {
             case 'dashboard':
                 return <Dashboard />
-
             case 'sessions':
                 return <Sessions />
-
             case 'contact':
                 return <ContactGroup />
-
             case 'message':
                 return <SendMessage />
             case 'message/csv':
