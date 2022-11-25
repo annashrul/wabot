@@ -16,6 +16,9 @@ export class Device {
   name: string;
 
   @Column()
+  type: string;
+
+  @Column()
   status: string;
 
   @Column()

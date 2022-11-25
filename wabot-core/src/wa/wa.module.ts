@@ -9,6 +9,8 @@ import { ContactsModule } from 'src/contacts/contacts.module';
 import { CallbackModule } from 'src/callback/callback.module';
 import { BullModule } from '@nestjs/bull';
 import { WaProcessor } from './queue/wa.processor';
+import { WaMdService } from 'src/wa-md/wa-md.service';
+import { WaMdModule } from 'src/wa-md/wa-md.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { WaProcessor } from './queue/wa.processor';
     MessageModule,
     ContactsModule,
     CallbackModule,
+    WaMdModule,
     BullModule.registerQueue({
       name: 'wa',
     }),

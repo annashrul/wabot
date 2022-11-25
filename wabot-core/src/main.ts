@@ -24,6 +24,7 @@ async function bootstrap() {
     'http://localhost:3000',
     'http://pesanku.id',
     'https://pesanku.id',
+    'https://*.pesanku.id',
     'https://amritb.github.io',
     'http://103.226.138.233',
     'http://app-wabot.developersquad.id',

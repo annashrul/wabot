@@ -10,35 +10,35 @@ import {
   Post,
   Query,
   Res,
+  UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { dtoSendmessageDto } from './dto/sendmessage.dto';
-import { WaService } from './wa.service';
-import { Response } from 'express';
-import { DeviceService } from 'src/device/device.service';
 import { ApiBody, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ContactsService } from 'src/contacts/contacts.service';
-import { Pagination } from 'nestjs-typeorm-paginate';
-import { Contact } from 'src/contacts/entities/contact.entity';
 import { ConversationService } from 'src/conversation/conversation.service';
-import { Conversation } from 'src/conversation/entities/conversation.entity';
-import { dtoSendmediaDto, TypeEnum } from './dto/sendmedia.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadedFile } from '@nestjs/common';
+import { DeviceService } from 'src/device/device.service';
+import { dtoSendmessageDto } from 'src/wa/dto/sendmessage.dto';
+import { WaMdService } from './wa-md.service';
+import { Response } from 'express';
+import { dtoSendmediaDto, TypeEnum } from 'src/wa/dto/sendmedia.dto';
 import { MessageType } from '@adiwajshing/baileys';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName } from 'src/utils/editFilename';
-import { WaMdService } from 'src/wa-md/wa-md.service';
-@ApiTags('whatsapp')
-@Controller('wa')
-export class WaController {
+import { Conversation } from 'src/conversation/entities/conversation.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { Contact } from 'src/contacts/entities/contact.entity';
+
+@Controller('wa-md')
+@ApiTags('whatsapp-multidevice')
+export class WaMdController {
   constructor(
-    private readonly service: WaService,
+    private readonly service: WaMdService,
     private readonly contactService: ContactsService,
     private readonly conversationService: ConversationService,
     private readonly contactServive: ContactsService,
     private readonly deviceService: DeviceService,
-    private readonly serviceMd: WaMdService,
   ) {}
 
   @Post(':id/send-message')
@@ -64,20 +64,12 @@ export class WaController {
         .send({ status: 'error', message: 'device not found' });
       return;
     } else {
-      if (device.type === 'multidevice') {
-        await this.serviceMd.sendMessageQueue(
-          id,
-          message.to,
-          message.message,
-          message.type,
-        );
-      } else
-        await this.service.sendMessageQueue(
-          id,
-          message.to,
-          message.message,
-          message.type,
-        );
+      await this.service.sendMessageQueue(
+        id,
+        message.to,
+        message.message,
+        message.type,
+      );
       // res
       //   .status(HttpStatus.OK)
       //   .send({ status: 'sucess', message: { id: mess.key.id } });
@@ -87,36 +79,22 @@ export class WaController {
     }
   }
 
-  @ApiBody({ type: [dtoSendmessageDto] })
-  @Post(':id/send-message-multiple')
-  async sendMessageMultiple(
+  @Post(':id/send-message-custom')
+  async sendMessageCustom(
     @Param('id') id: string,
-    @Body() messages: dtoSendmessageDto[],
+    @Body() message: dtoSendmessageDto,
     @Res() res: Response,
   ) {
-    const device = await this.deviceService.findOne(id);
-
-    for (const dt in messages) {
-      if (Object.prototype.hasOwnProperty.call(messages, dt)) {
-        const message = messages[dt];
-        console.log(message);
-
-        if (device.type === 'multidevice') {
-          await this.serviceMd.sendMessageQueue(
-            id,
-            message.to,
-            message.message,
-            message.type,
-          );
-        } else
-          await this.service.sendMessageQueue(
-            id,
-            message.to,
-            message.message,
-            message.type,
-          );
-      }
+    const noHp = message.to;
+    const tujuan = message.to;
+    if (message.type == 'group') {
+    } else if (message.type == 'broadcast') {
+    } else if (message.type == 'message') {
+    } else {
+      throw new HttpException('Invalid Message Type', HttpStatus.BAD_REQUEST);
     }
+
+    const device = await this.deviceService.findOne(id);
 
     if (!device) {
       res
@@ -124,15 +102,13 @@ export class WaController {
         .send({ status: 'error', message: 'device not found' });
       return;
     } else {
-      // const mess = await this.service.sendMessageQueue(
-      //   id,
-      //   message.to,
-      //   message.message,
-      //   message.type,
-      // );
-      // res
-      //   .status(HttpStatus.OK)
-      //   .send({ status: 'sucess', message: { id: mess.key.id } });
+      await this.service.sendMessageCustomQueue(
+        id,
+        message.to,
+        message.message,
+        message.type,
+      );
+
       res
         .status(HttpStatus.OK)
         .send({ status: 'sucess', message: 'the message will be process' });
@@ -197,24 +173,15 @@ export class WaController {
         .send({ status: 'error', message: 'device not found' });
       return;
     } else {
-      if (device.type === 'multidevice') {
-        const mess = await this.serviceMd.sendMediaQueue(id, message);
-        res
-          .status(HttpStatus.OK)
-          .send({ status: 'sucess', message: { url: mess.mediaUrl } });
-      } else {
-        const mess = await this.service.sendMediaQueue(id, message);
-        res
-          .status(HttpStatus.OK)
-          .send({ status: 'sucess', message: { url: mess.mediaUrl } });
-      }
-
+      const mess = await this.service.sendMediaQueue(id, message);
+      res
+        .status(HttpStatus.OK)
+        .send({ status: 'sucess', message: { url: mess.mediaUrl } });
       // res
       //   .status(HttpStatus.OK)
       //   .send({ status: 'sucess', message: 'the message will be process' });
     }
   }
-
   @ApiQuery({ name: 'page' })
   @ApiQuery({ name: 'limit' })
   @Get(':id/get-contact')
@@ -230,20 +197,14 @@ export class WaController {
     };
     return this.contactService.paginate(param, id);
   }
-  @ApiQuery({ name: 'page' })
-  @ApiQuery({ name: 'limit' })
+
   @Get(':id/get-group')
-  async getGroup(
-    @Param('id') id: string,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
-  ): Promise<Pagination<Contact>> {
+  async getGroup(@Param('id') id: string): Promise<any> {
     const param = {
-      page,
-      limit,
       route: '/get-group',
     };
-    return this.contactService.paginateGroup(param, id);
+    return this.service.getGroup(id);
+    // return this.conversationService.paginateGroup(param, id);
   }
   @ApiQuery({ name: 'page' })
   @ApiQuery({ name: 'limit' })
@@ -252,13 +213,13 @@ export class WaController {
     @Param('id') id: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
-  ): Promise<Pagination<Contact>> {
+  ): Promise<Pagination<Conversation>> {
     const param = {
       page,
       limit,
       route: '/get-broadcast',
     };
-    return this.contactService.paginateBroadCast(param, id);
+    return this.conversationService.paginateBroadcast(param, id);
   }
   @ApiQuery({ name: 'group-id' })
   @Get(':id/get-group-meta')

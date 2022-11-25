@@ -47,6 +47,30 @@ export class ContactsService {
 
     return paginate<Contact>(queryBuilder, options);
   }
+  async paginateGroup(
+    options: IPaginationOptions,
+    device_id: string,
+  ): Promise<Pagination<Contact>> {
+    const queryBuilder = this.contactRepository.createQueryBuilder('c');
+    queryBuilder.andWhere('c.device_id = :id').setParameters({ id: device_id });
+    queryBuilder.andWhere('c.jid like :name', {
+      name: `%@g.us%`,
+    });
+
+    return paginate<Contact>(queryBuilder, options);
+  }
+  async paginateBroadCast(
+    options: IPaginationOptions,
+    device_id: string,
+  ): Promise<Pagination<Contact>> {
+    const queryBuilder = this.contactRepository.createQueryBuilder('c');
+    queryBuilder.andWhere('c.device_id = :id').setParameters({ id: device_id });
+    queryBuilder.andWhere('c.jid like :name', {
+      name: `%@broadcast%`,
+    });
+
+    return paginate<Contact>(queryBuilder, options);
+  }
 
   findAll() {
     return `This action returns all contacts`;

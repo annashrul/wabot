@@ -8,6 +8,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
+import { DeviceService } from 'src/device/device.service';
+import { WaMdService } from 'src/wa-md/wa-md.service';
 import { WaService } from './wa.service';
 
 @WebSocketGateway({ namespace: '/wa' })
@@ -17,7 +19,11 @@ export class WaGateway
   private logger: Logger = new Logger(WaGateway.name);
   @WebSocketServer() server: Server;
 
-  constructor(private readonly service: WaService) {}
+  constructor(
+    private readonly service: WaService,
+    private readonly serviceMd: WaMdService,
+    private readonly deviceService: DeviceService,
+  ) {}
 
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
@@ -40,31 +46,46 @@ export class WaGateway
     if (prefix == '08') {
       noHp = '62' + noHp.substr(1);
     }
-
-    await this.service.sendMessage(
-      payload.deviceId,
-      `${noHp}@s.whatsapp.net`,
-      payload.message,
-      'message',
-    );
+    const device = await this.deviceService.findOne(payload.deviceId);
+    if (device.type === 'multidevice') {
+      await this.serviceMd.sendMessage(
+        payload.deviceId,
+        `${noHp}@s.whatsapp.net`,
+        payload.message,
+        'message',
+      );
+    } else
+      await this.service.sendMessage(
+        payload.deviceId,
+        `${noHp}@s.whatsapp.net`,
+        payload.message,
+        'message',
+      );
     return 'Message has sent successfully';
   }
 
   @SubscribeMessage('connect-wa')
-  handleConnect(client: any, payload: any): void {
+  async handleConnect(client: any, payload: any): Promise<void> {
     this.logger.log('Generate QR from ');
     this.logger.log(payload.deviceId);
     client.join(payload.deviceId);
+    const device = await this.deviceService.findOne(payload.deviceId);
+    this.logger.log(JSON.stringify(device));
     // this.server.emit('msgToClient', payload);
-    this.service.connect(this.server, payload.deviceId);
+    if (device.type === 'multidevice')
+      this.serviceMd.connect(this.server, payload.deviceId);
+    else this.service.connect(this.server, payload.deviceId);
   }
   @SubscribeMessage('disconnect-wa')
-  handleDisConnect(client: any, payload: any): void {
+  async handleDisConnect(client: any, payload: any): Promise<void> {
     this.logger.log('Disconnect ');
     this.logger.log(payload.deviceId);
     client.join(payload.deviceId);
+    const device = await this.deviceService.findOne(payload.deviceId);
     // this.server.emit('msgToClient', payload);
-    this.service.disconnect(payload.deviceId);
+    if (device.type === 'multidevice')
+      this.serviceMd.disconnect(payload.deviceId);
+    else this.service.disconnect(payload.deviceId);
   }
 
   afterInit(server: Server) {

@@ -17,6 +17,8 @@ export class DeviceService {
     const device = new Device();
     device.name = createDeviceDto.name;
     device.phone_number = createDeviceDto.phone;
+    device.phone_number = createDeviceDto.phone;
+    device.type = createDeviceDto.type;
 
     return this.deviceRepository.save(device);
   }
@@ -40,6 +42,7 @@ export class DeviceService {
     else {
       device.name = updateDeviceDto.name;
       device.phone_number = updateDeviceDto.phone;
+      device.type = updateDeviceDto.type;
 
       return this.deviceRepository.save(device);
     }

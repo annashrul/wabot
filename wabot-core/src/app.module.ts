@@ -10,6 +10,8 @@ import { ConversationModule } from './conversation/conversation.module';
 import { MessageModule } from './message/message.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { BullModule } from '@nestjs/bull';
+import { WaMdService } from './wa-md/wa-md.service';
+import { WaMdModule } from './wa-md/wa-md.module';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { BullModule } from '@nestjs/bull';
     ConversationModule,
     MessageModule,
     ContactsModule,
+    WaMdModule,
   ],
   controllers: [AppController],
   providers: [AppService],
