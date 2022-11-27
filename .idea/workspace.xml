@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2db15ec1-1ad8-4b5c-ae7a-70f93d4890f1" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/typescript-compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe/.env" afterPath="$PROJECT_DIR$/fe/.env" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe/src/pages/Node/Form.jsx" afterPath="$PROJECT_DIR$/fe/src/pages/Node/Form.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe/src/pages/Sessions/Sessions.jsx" afterPath="$PROJECT_DIR$/fe/src/pages/Sessions/Sessions.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wabot-core/src/main.ts" afterPath="$PROJECT_DIR$/wabot-core/src/main.ts" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,26 +29,40 @@
         <item name="" type="eadb38e5:DatabaseStructure$Root" />
         <item name="pesanku@localhost" type="e3449647:DbNodeDescriptor" />
       </path>
-      <path>
-        <item name="" type="eadb38e5:DatabaseStructure$Root" />
-        <item name="pesanku@localhost" type="e3449647:DbNodeDescriptor" />
-        <item name="pesanku" type="e3449647:DbNodeDescriptor" />
-      </path>
-      <path>
-        <item name="" type="eadb38e5:DatabaseStructure$Root" />
-        <item name="pesanku@localhost" type="e3449647:DbNodeDescriptor" />
-        <item name="pesanku" type="e3449647:DbNodeDescriptor" />
-        <item name="public" type="e3449647:DbNodeDescriptor" />
-      </path>
     </expand>
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name=".env" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fe/.env">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="5" column="23" lean-forward="false" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wabot-core/src/main.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="25" column="27" lean-forward="false" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#48#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>sendMessage(</find>
+      <find>getUrlApi</find>
+      <find>SwaggerModule</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -55,6 +74,9 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/ae95c05e-98f1-4c00-a7dc-276f40a3d2de/console.sql" />
         <option value="$PROJECT_DIR$/be/app/Models/vaksin.php" />
         <option value="$PROJECT_DIR$/be/app/Http/Controllers/messageController.php" />
+        <option value="&lt;c2a90d92-9a0d-4939-b750-3d80ce155a53&gt;/home/pesanku/pesanku-services/app/wabot-core/src/main.ts" />
+        <option value="&lt;c2a90d92-9a0d-4939-b750-3d80ce155a53&gt;/home/pesanku/pesanku-services/app/fe/src/pages/Sessions/Sessions.jsx" />
+        <option value="$PROJECT_DIR$/wabot-core/src/main.ts" />
       </list>
     </option>
   </component>
@@ -97,18 +119,42 @@
               <item name="wabot-local" type="b2602c69:ProjectViewProjectNode" />
               <item name="wabot-local" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
+            <path>
+              <item name="wabot-local" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wabot-local" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wabot-core" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="wabot-local" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wabot-local" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wabot-core" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="wabot-local" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wabot-local" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wabot-core" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="test" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
+    <property name="SearchEverywhereHistoryKey" value="browse&#9;ACTION&#9;WebDeployment.BrowseServers" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -135,23 +181,29 @@
       <workItem from="1663645690147" duration="1490000" />
       <workItem from="1663817558997" duration="20000" />
       <workItem from="1666153193539" duration="522000" />
+      <workItem from="1669349654407" duration="417000" />
+      <workItem from="1669539052077" duration="221000" />
+      <workItem from="1669539572000" duration="2267000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2032000" />
+    <option name="totallyTimeSpent" value="4937000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26510575" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3602719" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20619336" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12613294" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12613294" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.49506578" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1825658" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -177,36 +229,13 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="3" lean-forward="false" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-          <folding>
-            <element signature="e#257#1308#0#PHP" expanded="false" />
-            <element signature="e#1317#4597#0#PHP" expanded="false" />
-            <element signature="e#4603#5674#0#PHP" expanded="false" />
-            <element signature="e#5680#10259#0#PHP" expanded="false" />
-            <element signature="e#10265#11359#0#PHP" expanded="false" />
-            <element signature="e#11365#15960#0#PHP" expanded="false" />
-            <element signature="e#15966#16560#0#PHP" expanded="false" />
-            <element signature="e#16566#17218#0#PHP" expanded="false" />
-            <element signature="e#17224#17900#0#PHP" expanded="false" />
-            <element signature="e#17906#18895#0#PHP" expanded="false" />
-            <element signature="e#18901#19867#0#PHP" expanded="false" />
-            <element signature="e#19873#20474#0#PHP" expanded="false" />
-            <element signature="e#20480#21157#0#PHP" expanded="false" />
-            <element signature="e#21163#21852#0#PHP" expanded="false" />
-            <element signature="e#21858#22793#0#PHP" expanded="false" />
-            <element signature="e#22799#23259#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/apiNodeController.php">
+    <entry file="file://$PROJECT_DIR$/fe/src/pages/Sessions/Sessions.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -214,24 +243,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
           <caret line="4" column="3" lean-forward="false" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-          <folding>
-            <element signature="e#257#1308#0#PHP" expanded="false" />
-            <element signature="e#1317#4597#0#PHP" expanded="false" />
-            <element signature="e#4603#5674#0#PHP" expanded="false" />
-            <element signature="e#5680#10259#0#PHP" expanded="false" />
-            <element signature="e#10265#11359#0#PHP" expanded="false" />
-            <element signature="e#11365#15960#0#PHP" expanded="false" />
-            <element signature="e#15966#16560#0#PHP" expanded="false" />
-            <element signature="e#16566#17218#0#PHP" expanded="false" />
-            <element signature="e#17224#17900#0#PHP" expanded="false" />
-            <element signature="e#17906#18895#0#PHP" expanded="false" />
-            <element signature="e#18901#19867#0#PHP" expanded="false" />
-            <element signature="e#19873#20474#0#PHP" expanded="false" />
-            <element signature="e#20480#21157#0#PHP" expanded="false" />
-            <element signature="e#21163#21852#0#PHP" expanded="false" />
-            <element signature="e#21858#22793#0#PHP" expanded="false" />
-            <element signature="e#22799#23259#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -239,17 +250,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/LCI/collection/asd/vaksin.sql">
+    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18222">
-          <caret line="16250" column="197" lean-forward="true" selection-start-line="16250" selection-start-column="197" selection-end-line="16250" selection-end-column="197" />
+        <state relative-caret-position="64">
+          <caret line="4" column="3" lean-forward="false" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/apiNodeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/LCI/collection/asd/vaksin.sql" />
     <entry file="file://$PROJECT_DIR$/be/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-256">
@@ -303,32 +321,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="3" lean-forward="false" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-          <folding>
-            <element signature="e#257#1308#0#PHP" expanded="false" />
-            <element signature="e#1317#4597#0#PHP" expanded="false" />
-            <element signature="e#4603#5674#0#PHP" expanded="false" />
-            <element signature="e#5680#10259#0#PHP" expanded="false" />
-            <element signature="e#10265#11359#0#PHP" expanded="false" />
-            <element signature="e#11365#15960#0#PHP" expanded="false" />
-            <element signature="e#15966#16560#0#PHP" expanded="false" />
-            <element signature="e#16566#17218#0#PHP" expanded="false" />
-            <element signature="e#17224#17900#0#PHP" expanded="false" />
-            <element signature="e#17906#18895#0#PHP" expanded="false" />
-            <element signature="e#18901#19867#0#PHP" expanded="false" />
-            <element signature="e#19873#20474#0#PHP" expanded="false" />
-            <element signature="e#20480#21157#0#PHP" expanded="false" />
-            <element signature="e#21163#21852#0#PHP" expanded="false" />
-            <element signature="e#21858#22793#0#PHP" expanded="false" />
-            <element signature="e#22799#23259#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -336,7 +328,128 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
           <caret line="375" column="42" lean-forward="false" selection-start-line="375" selection-start-column="30" selection-end-line="375" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/ormconfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/wa-md/wa-md.controller.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2128">
+          <caret line="133" column="4" lean-forward="false" selection-start-line="133" selection-start-column="4" selection-end-line="133" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="35" column="2" lean-forward="true" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/app.controller.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/wa-md/wa-md.controller.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/app.controller.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/app.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="4" column="8" lean-forward="true" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fe/src/pages/Sessions/Sessions.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="17" column="51" lean-forward="false" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="58" column="31" lean-forward="false" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="31" />
+          <folding>
+            <marker date="1668137527008" expanded="true" signature="525:552" ph="select * fro... url_api_table" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/dist/src/wa-md/queue/wa-md.processor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2221">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/dist/src/wa-md/queue/wa-md.processor.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="3" column="42" lean-forward="false" selection-start-line="3" selection-start-column="42" selection-end-line="3" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/dist/src/wa-md/wa-md.service.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="34" lean-forward="true" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/dist/src/wa-md/wa-md.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1856">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fe/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="23" lean-forward="false" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wabot-core/src/main.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="25" column="27" lean-forward="false" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

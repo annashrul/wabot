@@ -16,7 +16,8 @@ import Loading from '../../components/loading/Loading';
 import NodeApi from '../../api/Chatbot/Node';
 import DeviceApi from '../../api/Device';
 
-const socket_target = "wss://wabot.pesanku.id/wa-md";
+// const socket_target = "wss://wabot.pesanku.id/wa-md";
+const socket_target = `wss://${process.env.REACT_APP_WA_SOCKET}/wa-md`;
 
 class Form extends Component {
     static contextType = RootContext;

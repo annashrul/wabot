@@ -14,8 +14,7 @@ import { io } from "socket.io-client";
 import { RootContext } from '../../Context';
 import Loading from '../../components/loading/Loading';
 import DeviceAPI from '../../api/Device';
-
-const socket_target = "wss://wabot.pesanku.id/wa-md";
+const socket_target = `wss://${process.env.REACT_APP_WA_SOCKET}/wa-md`;
 
 class Sessions extends Component {
     static contextType = RootContext;
