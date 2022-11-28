@@ -26,6 +26,7 @@ class deviceController extends Controller
             if((device::where('id_user', $currentUser->id)->count()) < $limit){
                 // create callback
                 $callback = Http::post($apiDb.'callback', [
+//                    'url' => 'https://sinarblast.com/api/message/receive' ,
                     'url' => 'https://sinarblast.com/api/message/receive' ,
                     'device_id' => $response['id'],
                 ]);

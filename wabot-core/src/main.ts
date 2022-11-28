@@ -23,7 +23,7 @@ async function bootstrap() {
   const corsOrigins = [
     'http://localhost:3000',
     'http://pesanku.id',
-    'https://sinarblast.com',
+    'https://sinarblast.com:3001',
     'https://pesanku.id',
     'https://*.pesanku.id',
     'https://amritb.github.io',
