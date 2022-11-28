@@ -51,11 +51,12 @@ class adminController extends Controller
 
     public function getDevice()
     {
+
         $device = device::all();
         if(!empty($device)){
             return response()->json([
                 'status' => 200,
-                'message' => 'Success',
+                'message' => 'Success bansat',
                 'data' => $device,
             ]);
         }else{

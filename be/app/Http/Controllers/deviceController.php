@@ -15,7 +15,6 @@ class deviceController extends Controller
     {
         $getUrl = new wacoreController;
         $apiDb = $getUrl->getUrlApi();
-
         $response = Http::post($apiDb.'device', [
                         'phone' => $request->phone,
                         'name' => $request->name,
@@ -25,10 +24,10 @@ class deviceController extends Controller
             $currentUser = Auth::user();
             $limit=30;
             if((device::where('id_user', $currentUser->id)->count()) < $limit){
-                // create callback 
+                // create callback
                 $callback = Http::post($apiDb.'callback', [
-                        'url' => $apiDb.'api/message/receive' ,
-                        'device_id' => $response['id'],
+                    'url' => 'https://sinarblast.com/api/message/receive' ,
+                    'device_id' => $response['id'],
                 ]);
 
                 $device = new device;
@@ -80,11 +79,11 @@ class deviceController extends Controller
         $currentUser = Auth::user();
         if((device::where('id_user', $currentUser->id)->count()) > 0){
             $data = device::where('id_user', $currentUser->id)->get();
-            // return response()->json([
-            //         'status' => 200,
-            //         'message' => 'Success',
-            //         'data' => $data,
-            //     ], 200);
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Success',
+                    'data' => $data,
+                ], 200);
         }else{
             return response()->json([
                 'status' => 200,

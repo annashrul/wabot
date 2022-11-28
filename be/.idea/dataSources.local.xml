@@ -10,5 +10,14 @@
       <user-name>postgres</user-name>
       <introspection-schemas>pesanku:public</introspection-schemas>
     </data-source>
+    <data-source name="pesanku@167.99.79.77" uuid="888f8b6c-cb61-4de4-9812-9c73e826c48f">
+      <database-info product="PostgreSQL" version="15.0 (Debian 15.0-1.pgdg110+1)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <introspection-schemas>pesanku:public</introspection-schemas>
+    </data-source>
   </component>
 </project>

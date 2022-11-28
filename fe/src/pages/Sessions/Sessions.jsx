@@ -113,7 +113,7 @@ class Sessions extends Component {
             })
 
             socket.on('qrReload', (msg) => {
-                console.log('qrReload');
+                console.log('qrReload',msg);
                 this.setState({
                     qr: msg.qr
                 })

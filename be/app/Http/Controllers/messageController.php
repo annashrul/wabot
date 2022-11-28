@@ -133,6 +133,7 @@ class messageController extends Controller
     //==================================================
     public function receiveMessage(Request $request)
     {
+
         
         // preprocess receiver number
         $patern = '/((\@.*))/';

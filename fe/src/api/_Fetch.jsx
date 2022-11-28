@@ -1,6 +1,8 @@
 const fetchNow = async (sub, method, body, headers) => {
     let url = process.env.REACT_APP_API + '/api' + sub;
     let response;
+
+    console.log("###########################",url)
     
     if(body) {
         /* Assign Request Headers */

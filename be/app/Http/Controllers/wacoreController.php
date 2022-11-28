@@ -61,7 +61,6 @@ class wacoreController extends Controller
         $device = new deviceController;
         $getDevice = $device->getDeviceById($request->id_device); 
         $getDevice = $getDevice->getData();
-
         if(empty($getDevice->data)){
             return response()->json([
                 "status" => 200,
@@ -72,12 +71,12 @@ class wacoreController extends Controller
         // get all contact
 
        $response = Http::timeout(60)->get($url.'wa/'.$getDevice->data[0]->uid.'/get-contact?limit=100000&page=1');
-     
+
         // response sementara
         // $string = file_get_contents(base_path("app/Http/Controllers/contact.json"));
         // $response = json_decode($string, true);
         // loop
-//        return $getDevice->data;
+//        return $getDevice->data;z
         foreach ($response['items'] as $key => $value) {
             // find by jid
             if((!empty($value['name'])) || ($value['name']== "2")){
