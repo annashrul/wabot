@@ -79,17 +79,17 @@ class deviceController extends Controller
         $currentUser = Auth::user();
         if((device::where('id_user', $currentUser->id)->count()) > 0){
             $data = device::where('id_user', $currentUser->id)->get();
-            return response()->json([
-                    'status' => 200,
-                    'message' => 'Success',
-                    'data' => $data,
-                ], 200);
+            // return response()->json([
+            //         'status' => 200,
+            //         'message' => 'Success',
+            //         'data' => $data,
+            //     ], 200);
         }else{
             return response()->json([
                 'status' => 200,
                 'message' => 'There is no device found',
-                'data' => [],                    
-            ], 200);    
+                'data' => [],
+            ], 200);
         }
 
         $res = Http::get($apiDb.'device');

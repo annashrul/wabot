@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2db15ec1-1ad8-4b5c-ae7a-70f93d4890f1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/be/app/Http/Controllers/adminController.php" afterPath="$PROJECT_DIR$/be/app/Http/Controllers/adminController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/be/.idea/workspace.xml" afterPath="$PROJECT_DIR$/be/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/be/app/Http/Controllers/deviceController.php" afterPath="$PROJECT_DIR$/be/app/Http/Controllers/deviceController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php" afterPath="$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe/.env" afterPath="$PROJECT_DIR$/fe/.env" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe/src/api/_Fetch.jsx" afterPath="$PROJECT_DIR$/fe/src/api/_Fetch.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe/src/pages/Sessions/Sessions.jsx" afterPath="$PROJECT_DIR$/fe/src/pages/Sessions/Sessions.jsx" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -66,32 +59,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="console.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ae95c05e-98f1-4c00-a7dc-276f40a3d2de/console.sql">
+      <file leaf-file-name="deviceController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/deviceController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
-              <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="193">
+              <caret line="85" column="27" lean-forward="true" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
+              <folding>
+                <element signature="e#39#53#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="deviceController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/deviceController.php">
+      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/be/routes/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="16">
-              <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="36" />
-              <folding>
-                <element signature="e#39#53#0#PHP" expanded="true" />
-                <element signature="e#5013#6858#0#PHP" expanded="false" />
-                <element signature="e#6864#8497#0#PHP" expanded="false" />
-                <element signature="e#8503#9095#0#PHP" expanded="false" />
-                <element signature="e#9101#10021#0#PHP" expanded="false" />
-                <element signature="e#10027#10583#0#PHP" expanded="false" />
-                <element signature="e#10589#11159#0#PHP" expanded="false" />
-                <element signature="e#11165#11788#0#PHP" expanded="false" />
-                <element signature="e#11794#12363#0#PHP" expanded="false" />
-              </folding>
+            <state relative-caret-position="177">
+              <caret line="113" column="60" lean-forward="false" selection-start-line="113" selection-start-column="51" selection-end-line="113" selection-end-column="60" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,11 +88,11 @@
       <find>sendMessage(</find>
       <find>getUrlApi</find>
       <find>SwaggerModule</find>
-      <find>/device</find>
-      <find>getDevice</find>
       <find>device</find>
       <find>message/receive</find>
       <find>Device successfully inserted</find>
+      <find>/device</find>
+      <find>getDevice</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -190,8 +175,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -235,11 +218,13 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../codeigniter/tripisia-web-2/mobile" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
     <property name="SearchEverywhereHistoryKey" value="browse&#9;ACTION&#9;WebDeployment.BrowseServers" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
@@ -282,20 +267,23 @@
       <workItem from="1669605617459" duration="3857000" />
       <workItem from="1669613100830" duration="1357000" />
       <workItem from="1669619767336" duration="28000" />
+      <workItem from="1669643948688" duration="560000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18017000" />
+    <option name="totallyTimeSpent" value="18577000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29305136" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27265862" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29305136" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27643505" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24622357" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24622357" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -306,7 +294,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32730263" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -326,6 +313,24 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ae95c05e-98f1-4c00-a7dc-276f40a3d2de/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/deviceController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="36" />
+          <folding>
+            <element signature="e#39#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c3bc7f3f-c9b9-4830-bccc-e73d793a912b/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -348,14 +353,6 @@
           <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="36" />
           <folding>
             <element signature="e#39#53#0#PHP" expanded="true" />
-            <element signature="e#5013#6858#0#PHP" expanded="false" />
-            <element signature="e#6864#8497#0#PHP" expanded="false" />
-            <element signature="e#8503#9095#0#PHP" expanded="false" />
-            <element signature="e#9101#10021#0#PHP" expanded="false" />
-            <element signature="e#10027#10583#0#PHP" expanded="false" />
-            <element signature="e#10589#11159#0#PHP" expanded="false" />
-            <element signature="e#11165#11788#0#PHP" expanded="false" />
-            <element signature="e#11794#12363#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -382,14 +379,6 @@
           <caret line="27" column="36" lean-forward="true" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
           <folding>
             <element signature="e#39#53#0#PHP" expanded="true" />
-            <element signature="e#5013#6858#0#PHP" expanded="false" />
-            <element signature="e#6864#8497#0#PHP" expanded="false" />
-            <element signature="e#8503#9095#0#PHP" expanded="false" />
-            <element signature="e#9101#10021#0#PHP" expanded="false" />
-            <element signature="e#10027#10583#0#PHP" expanded="false" />
-            <element signature="e#10589#11159#0#PHP" expanded="false" />
-            <element signature="e#11165#11788#0#PHP" expanded="false" />
-            <element signature="e#11794#12363#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -416,7 +405,6 @@
           <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding>
             <element signature="e#40#68#0#PHP" expanded="true" />
-            <marker date="1669605207710" expanded="true" signature="525:552" ph="select * fro... url_api_table" />
           </folding>
         </state>
       </provider>
@@ -585,13 +573,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wabot-core/dist/src/wa-md/wa-md.service.js.map">
-      <provider editor-type-id="sourcemapFileViewerProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="34" lean-forward="true" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
         </state>
+      </provider>
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wabot-core/dist/src/wa-md/wa-md.service.js">
@@ -663,20 +651,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/be/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="189" column="67" lean-forward="false" selection-start-line="189" selection-start-column="67" selection-end-line="189" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/wacoreController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="512">
           <caret line="60" column="39" lean-forward="true" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
           <folding>
             <element signature="e#40#68#0#PHP" expanded="true" />
-            <marker date="1669605207710" expanded="true" signature="525:552" ph="select * fro... url_api_table" />
           </folding>
         </state>
       </provider>
@@ -707,20 +687,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/be/routes/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="113" column="60" lean-forward="false" selection-start-line="113" selection-start-column="51" selection-end-line="113" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/be/app/Http/Controllers/deviceController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="36" />
+        <state relative-caret-position="193">
+          <caret line="85" column="27" lean-forward="true" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
           <folding>
             <element signature="e#39#53#0#PHP" expanded="true" />
-            <element signature="e#5013#6858#0#PHP" expanded="false" />
-            <element signature="e#6864#8497#0#PHP" expanded="false" />
-            <element signature="e#8503#9095#0#PHP" expanded="false" />
-            <element signature="e#9101#10021#0#PHP" expanded="false" />
-            <element signature="e#10027#10583#0#PHP" expanded="false" />
-            <element signature="e#10589#11159#0#PHP" expanded="false" />
-            <element signature="e#11165#11788#0#PHP" expanded="false" />
-            <element signature="e#11794#12363#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
