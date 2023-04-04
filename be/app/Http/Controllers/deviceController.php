@@ -26,8 +26,8 @@ class deviceController extends Controller
             if((device::where('id_user', $currentUser->id)->count()) < $limit){
                 // create callback
                 $callback = Http::post($apiDb.'callback', [
-//                    'url' => 'https://sinarblast.com/api/message/receive' ,
                     'url' => 'https://sinarblast.com/api/message/receive' ,
+                    'url' => 'https://pesanku.id/api/message/receive' ,
                     'device_id' => $response['id'],
                 ]);
 
@@ -40,7 +40,7 @@ class deviceController extends Controller
                 $device->type = $request->type;
                 $device->save();
 
-                
+
                 if (! empty($device->id)) {
                     return response()->json([
                         'status' => 200,
@@ -53,7 +53,7 @@ class deviceController extends Controller
                         'message' => 'Failed',
                         'data' => $device,
                     ]);
-                }   
+                }
             }else{
                 return response()->json([
                         'status' => 400,
@@ -69,8 +69,8 @@ class deviceController extends Controller
                     'data' => [],
                 ]);
         }
-    	
-    	
+
+
     }
 
     public function getDevice()
@@ -102,11 +102,11 @@ class deviceController extends Controller
         if($res->successful()){
             $i = 0;
             while ($i < $count){
-                foreach ($data as $j => $d) { 
+                foreach ($data as $j => $d) {
                     if($response[$i]->id == $d->uid){
-                        
+
                         if((device::where('id', $d->id)->where('id_user', $currentUser->id)->count()) > 0){
-                            
+
                             $device = device::find($d->id);
                             $device->status = $response[$i]->status;
                             $device->phone_number = $response[$i]->phone_number;
@@ -125,7 +125,7 @@ class deviceController extends Controller
                 $data = device::where('id_user', $currentUser->id)->get();
                 return response()->json([
                     "status" => 200,
-                    "message" => "Success",
+                    "message" => "Success ",
                     "data" => $data
                 ], 200);
                 break;
@@ -169,17 +169,17 @@ class deviceController extends Controller
                  return response()->json([
                     "status" => 400,
                     "message" => "Request failed to WA Core",
-                ], 400);    
+                ], 400);
             }
 
-            
+
         }else{
             return response()->json([
                 "status" => 200,
                 "message" => "Device not found",
-            ], 200);            
+            ], 200);
         }
-            
+
     }
 
     public function deleteDevice(Request $request)
@@ -190,8 +190,8 @@ class deviceController extends Controller
         if((device::where('id_user', $currentUser->id)->count()) > 0) {
             if((device::where('id', $request->id_device)->count())>0){
                 $device = device::find($request->id_device);
-                $device->delete();                
-                
+                $device->delete();
+
                 $response = Http::delete($apiDb.'device/'. $device->uid, [
                         'name' => $device->name,
                     ]);
@@ -206,10 +206,10 @@ class deviceController extends Controller
                      return response()->json([
                         "status" => 400,
                         "message" => "Request failed to WA Core",
-                    ], 400);    
+                    ], 400);
                 }
 
-                
+
             }else{
                  return response()->json([
                     "status" => 200,
@@ -229,11 +229,11 @@ class deviceController extends Controller
     public function getDeviceByNumber($number)
     {
         if((device::where('phone_number', $number)->count())>0){
-            $device = device::where('phone_number', $number)->get();               
-            
+            $device = device::where('phone_number', $number)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $device,
             ], 200);
         }else{
@@ -252,7 +252,7 @@ class deviceController extends Controller
                 $device = device::where('phone_number', $number)->where('id_user', $id_user)->get();
                 return response()->json([
                     "status" => 200,
-                    "message" => "Succeess",            
+                    "message" => "Succeess",
                     "data" => $device,
                 ], 200);
             }else{
@@ -274,11 +274,11 @@ class deviceController extends Controller
     public function getDeviceById($id)
     {
         if((device::where('id', $id)->count())>0){
-            $device = device::where('id', $id)->get();               
-            
+            $device = device::where('id', $id)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $device,
             ], 200);
         }else{
@@ -292,13 +292,13 @@ class deviceController extends Controller
 
     public function getDeviceByUid($uid)
     {
-        
+
         if((device::where('uid', $uid)->count())>0){
-            $device = device::where('uid', $uid)->get();               
-            
+            $device = device::where('uid', $uid)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Success",            
+                "message" => "Success",
                 "data" => $device,
             ], 200);
         }else{
@@ -314,11 +314,11 @@ class deviceController extends Controller
     {
         $currentUser = Auth::user();
         if((device::where('id_user', $currentUser->id)->count())>0){
-            $device = device::where('id_user', $currentUser->id)->get();               
-            
+            $device = device::where('id_user', $currentUser->id)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Success",            
+                "message" => "Success",
                 "data" => $device,
             ], 200);
         }else{
@@ -333,11 +333,11 @@ class deviceController extends Controller
     public function getDeviceByIdUser($id)
     {
         if((device::where('id_user', $id)->count())>0){
-            $device = device::where('id_user', $id)->get();               
-            
+            $device = device::where('id_user', $id)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Success",            
+                "message" => "Success",
                 "data" => $device,
             ], 200);
         }else{
@@ -364,7 +364,7 @@ class deviceController extends Controller
             $device->receive = (int) (empty($data->receive) ? $device->receive : $data->receive);
             $device->type = (int) (empty($data->type) ? $device->type : $data->type);
             $device->save();
-        
+
             return response()->json([
                 "status" => 200,
                 "message" => "Status Device successfully updated",
@@ -376,7 +376,7 @@ class deviceController extends Controller
                 "status" => 200,
                 "message" => "Device not found",
                 "data" => []
-            ], 200);            
+            ], 200);
         }
     }
 }

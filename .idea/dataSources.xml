@@ -10,11 +10,11 @@
         <property name="ApplicationName" value="DataGrip" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="pesanku@167.99.79.77" uuid="c3bc7f3f-c9b9-4830-bccc-e73d793a912b">
+    <data-source source="LOCAL" name="pesanku@103.214.113.9" uuid="c3bc7f3f-c9b9-4830-bccc-e73d793a912b">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://167.99.79.77:5432/pesanku</jdbc-url>
+      <jdbc-url>jdbc:postgresql://103.214.113.9:5544/pesanku</jdbc-url>
       <driver-properties>
         <property name="ApplicationName" value="DataGrip" />
       </driver-properties>

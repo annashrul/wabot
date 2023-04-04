@@ -38,8 +38,9 @@ class pathController extends Controller
         $path->id_nextNode = $request->id_nextNode;
         $path->type = $request->type;
         $path->key = $request->key;
+
         $path->save();
-        
+
         if(!empty($path->id)){
             return response()->json([
                 'status' => 200,
@@ -76,11 +77,11 @@ class pathController extends Controller
     public function getPathByID($id)
     {
         if((path::where('id', $id)->count())>0){
-            $path = path::where('id', $id)->get();               
-            
+            $path = path::where('id', $id)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $path,
             ], 200);
         }else{
@@ -95,10 +96,10 @@ class pathController extends Controller
     public function getPathByIdCurrentNode($id)
     {
         if((path::where('id_currentNode', $id)->count())>0){
-            $path = path::where('id_currentNode', $id)->get(); 
+            $path = path::where('id_currentNode', $id)->get();
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess ",            
+                "message" => "Succeess ",
                 "data" => $path,
             ], 200);
         }else{
@@ -134,14 +135,14 @@ class pathController extends Controller
             FROM path_table
             JOIN node_table ON node_table.id=path_table."id_nextNode"
             WHERE path_table."key" '.$notIn.' and id_rule='.$id.' OR path_table.id=1
-            order by path_table."id_currentNode", path_table."key" asc
+            order by path_table.id asc
         ');
         // $node = DB::table('path_table')->orderBy("id","asc")->get();
         if(sizeof($node) > 0){
             $path = path::where('id_rule', $id)->orderBy("id_currentNode","asc")->get();
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $path,
                 "node"=>$node,
                 // "bangsat"=>$newNode
@@ -155,7 +156,7 @@ class pathController extends Controller
                 "node" => [],
             ], 200);
         }
-      
+
     }
     public function updatePath(Request $request)
     {
@@ -177,7 +178,7 @@ class pathController extends Controller
                 "status" => 200,
                 "message" => "Rule not found",
                 "data" => []
-            ], 200);            
+            ], 200);
         }
     }
 
@@ -185,7 +186,7 @@ class pathController extends Controller
     {
         if((path::where('id', $request->id_path)->count())>0){
             $path = path::find($request->id_path);
-            $path->delete();                           
+            $path->delete();
             return response()->json([
               "status" => 200,
               "message" => "Records deleted",
@@ -205,7 +206,7 @@ class pathController extends Controller
         if((eForm::where('id', $request->id_eform)->count()) > 0){
             if((eForm_question::where('id_eform', $request->id_eform)->count()) > 0){
                 $question = eForm_question::where('id_eform', $request->id_eform)->get()->toArray();
-                
+
                 // sorting question by question number
                 $number = array();
                 foreach ($question as $key => $row)
@@ -213,8 +214,8 @@ class pathController extends Controller
                     $number[$key] = $row['question_number'];
                 }
                 array_multisort($number, SORT_ASC, $question);
-                
-                // create initial node e-Form 
+
+                // create initial node e-Form
                 $node = new nodeController;
                 $node1 = $node->createNodeEform($question[0]['question']);
                 $node1 = $node1->getData();
@@ -228,11 +229,11 @@ class pathController extends Controller
                 $path->key = $request->key;
                 $path->save();
 
-                for ($i=1; $i < count($question); $i++) { 
-                    // create node question 
+                for ($i=1; $i < count($question); $i++) {
+                    // create node question
                     $node2 = $node->createNodeEform($question[$i]['question']);
                     $node2 = $node2->getData();
-                    
+
 
                     // create path node 1 to 2
                     $path = new path;
@@ -275,8 +276,8 @@ class pathController extends Controller
                     'status' => 200,
                     'message' => 'E-form has no question',
                     'data' => [],
-                ], 200);  
-            }  
+                ], 200);
+            }
         }else{
             return response()->json([
                 'status' => 200,
@@ -285,7 +286,7 @@ class pathController extends Controller
             ], 200);
         }
 
-       
+
     }
 
      public function createPathInit(Request $request)
@@ -316,11 +317,11 @@ class pathController extends Controller
     public function getPathInit($id_rule)
     {
         if((path::where('id_rule', $id_rule)->where('id_currentNode', 1)->count())>0){
-            $path = path::where('id_rule', $id_rule)->where('id_currentNode', 1)->get();               
-            
+            $path = path::where('id_rule', $id_rule)->where('id_currentNode', 1)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $path,
             ], 200);
         }else{
@@ -330,13 +331,13 @@ class pathController extends Controller
                 "data" => [],
             ], 200);
         }
-    
+
     }
 
     public function createPathApi(Request $request)
     {
         if((api::where('id', $request->id_api)->count())>0){
-            $node = node::where('response', $request->id_api)->get();  
+            $node = node::where('response', $request->id_api)->get();
             // create path API start
             $path = new path;
             $path->id_currentNode = $request->id_currentNode;
@@ -344,8 +345,8 @@ class pathController extends Controller
             $path->type = "API";
             $path->id_rule = $request->id_rule;
             $path->save();
-            
-            // update path api response   
+
+            // update path api response
             if((path::where('id_currentNode', $node[0]['id'])->count()) > 0){
                 $pathAPI = path::where('id_currentNode', $node[0]['id'])->get()->toArray();
                 foreach ($pathAPI as $key => $value) {
@@ -353,12 +354,12 @@ class pathController extends Controller
                     $path->id_rule = $request->id_rule;
                     $path->save();
                 }
-                
+
             }
-            
+
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $path,
             ], 200);
         }else{

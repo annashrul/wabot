@@ -134,16 +134,18 @@ class messageController extends Controller
     public function receiveMessage(Request $request)
     {
 
-        
+
         // preprocess receiver number
         $patern = '/((\@.*))/';
         $sender_number = preg_replace($patern, '', $request->meta['remoteJid']);
-
-        // get device by uid receiver
         $device = new deviceController;
         $getDevice = $device->getDeviceByUid($request->device_id);
         $getDevice = $getDevice->getData();
-
+//        return response()->json([
+//            'status' => 200,
+//            'message' => 'The Message Will be Process',
+//            'data' => $getDevice,
+//        ], 200);
         // get user
         $user = new AuthController;
         $getUser = $user->getUserById($getDevice->data[0]->id_user)->getData();
@@ -152,6 +154,8 @@ class messageController extends Controller
         // update count and kuota receive message
         $countReceive = $getUser->data[0]->receive + 1;
         $kuotaReceive = $getUser->data[0]->kuota_receive - 1;
+
+
 
         $data = (object)([
             'id' => $getUser->data[0]->id,
@@ -325,7 +329,8 @@ class messageController extends Controller
                 if(empty($pathNext->data)){
                     $conversation = new conversationController;
                     $deleteConversation = $conversation->deleteConversation($data[0]['id']);
-                }else{
+                }
+                else{
                     $convo = (object)([
                         'id' => $data[0]['id'],
                         'id_path' => $next->id,
@@ -342,12 +347,18 @@ class messageController extends Controller
                 $nextnode = $nextnode->getData();
                 $nip=$request->message['conversation'];
                 $fixMsg=$nextnode->data[0]->response;
+
+//                return response()->json(['asd'=>$nextnode->data[0]->id]);
+
+
                 if($this->templateMsgVaksin($nip)){
                     $fixMsg=$this->templateMsgVaksin($nip);
                 }
                 if($nextnode->data[0]->id == 13){
                     $fixMsg=$this->envVaksinIndonesia();
                 }
+
+
                 $prefix=explode("-",$nip);
                 if(count($prefix) === 4){
                    $fixMsg= $this->templateMsgTestCovid($nip);
@@ -373,9 +384,9 @@ class messageController extends Controller
 
             // check rule
             $rule = rule::where('id_device', $getDevice->data[0]->id)->get();
-            $path = path::where('id_rule', $getDevice->data[0]->id)->get();
-            // return response()->json($getDevice->data);
-            // $thisrule = $rule[0];
+            $path = path::where('id_rule', $rule[0]->id)->get();
+//             return response()->json($path);
+            $thispath = $path[0];
             if(sizeof($path) < 1){
                 $path = path::where('id', 1)->get();
             }
@@ -384,6 +395,7 @@ class messageController extends Controller
                     $thispath = $value;
                 }
             }
+//            return response()->json($thispath);
 
             if($thispath->type == "API"){
                 // get id api in response node
@@ -422,7 +434,7 @@ class messageController extends Controller
                     $res = Http::post($url);
                 }
 
-                print_r((array)json_decode($res));
+//                print_r((array)json_decode($res));
 
                 // get next node api
                 $pathNext = $path->getPathByIdCurrentNode($thispath->id_nextNode)->getData();
@@ -506,6 +518,9 @@ class messageController extends Controller
     private function envVaksinIndonesia(){
         $response = Http::get("https://apicovid19indonesia-v2.vercel.app/api/indonesia");
         $newRes=json_decode($response->body());
+
+        return $newRes;
+
         $positif = number_format((int)$newRes->positif)." ORANG";
         $dirawat = number_format($newRes->dirawat)." ORANG";
         $sembuh = number_format($newRes->sembuh)." ORANG";
@@ -2120,16 +2135,6 @@ class messageController extends Controller
         $getDevice = $device->getDeviceById($request->id_device);
         $getDevice = $getDevice->getData();
 
-
-
-        // // save to send message table
-        // $send_message = new send_message;
-        // $send_message->id_message = $message->id;
-        // $send_message->name = NULL;
-        // $send_message->phone = $request->recipient;
-        // $send_message->type = "chatbot";
-        // $send_message->save();
-
         if($request->type == "Contact" || $request->type == "contact" || $request->type == "default"){
             $target = "message";
         }
@@ -2182,7 +2187,7 @@ class messageController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'The Message Will be Process',
-                'data' => $data,
+                'data' => $link,
             ], 200);
         }else{
             return response()->json([
@@ -2199,7 +2204,7 @@ class messageController extends Controller
     {
         $getUrl = new wacoreController;
         $apiDb = $getUrl->getUrlApi();
-        
+
         // get current time
         $current_date_time = Carbon::now()->toDateTimeString();
 

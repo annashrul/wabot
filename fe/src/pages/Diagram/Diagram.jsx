@@ -86,6 +86,7 @@ class Diagram extends Component {
     for (i = 0; i < list.length; i += 1) {
       node = list[i];
       if (parseInt(node.id_currentNode) !== 1) {
+        console.log("list[map[node.id_currentNode]].children",list[map[node.id_currentNode]].children)
         list[map[node.id_currentNode]].children.push(node);
       } else {
         roots.push(node);
@@ -138,7 +139,7 @@ class Diagram extends Component {
     const col = target.name;
     const val = target.value;
     let state = {};
-  
+
     if (type === "checkbox") {
       state["isTrigger"] = target.checked;
     } else {
@@ -150,7 +151,7 @@ class Diagram extends Component {
           this.setState({title:"Kembali ke menu sebelumnya",id_nextNode:this.state.parrentNode.id_nextNode,key:"0"})
         }
         else if(val === "99"){
-          this.setState({title:"Kembali ke menu awal",id_nextNode:2,key:"99"})
+          this.setState({title:"Kembali ke menu awal",id_nextNode:this.state.dataTree[0].id_nextNode ,key:"99"})
         }
         else {
           this.setState({title:"",id_nextNode:"",key:""})
@@ -203,7 +204,7 @@ class Diagram extends Component {
                 key: field.key,
                 title: field.title,
               });
-              
+
               NodeAPI.createPathDefaultFe(bodys).then((result) => {
                 this.handleCloseModal(null,()=>{
                    this.fetchNow();
@@ -231,17 +232,17 @@ class Diagram extends Component {
               })
             })
           })
-          
+
         }
       }
     }
-    
-    
+
+
 
   }
 
   handleCheck(e) {
-   
+
     let flattenArray = this.convertArrayTreeToFlat(this.state.dataTree, []);
     const filterNode = flattenArray.filter(
       (row) => e.id_currentNode === row.id_nextNode
@@ -260,7 +261,7 @@ class Diagram extends Component {
   }
 
   fetchNow() {
-   
+
     this.setState({ isLoading: true, loadingTitle:"checking data rule", currentNode:null, parrentNode:null}, () => {
       RuleAPI.get().then((res) => {
         let rule = [];
@@ -281,31 +282,33 @@ class Diagram extends Component {
                 let data = [];
                 if (result.status === 200) {
                   data = result.node;
-                  
+
                   data.map((row, key) => {
                     Object.assign(row, { children: [] });
                   });
+
+                  // console.log(data);
                   if(data.length>1){
                     const check = this.convertArrayFlatToTree(data);
-                    this.setState({ 
+                    this.setState({
                       dataTree: check,
                       loadingTitle:"data siap dikonsumsi"}, () => {
-                      setTimeout(()=>{
-                        this.setState({isLoading:false, loadingTitle:""})
+                      this.setState({isLoading:false, loadingTitle:""},()=>{
                         $("#modal-create").modal("hide");
-                      },300)
+                      })
                     });
                   }else{
                     const stateTree=this.state.dataTree;
-                    const mergedArray = [ ...stateTree, ...data ]
+                    const mergedArray = [ ...stateTree, ...data ];
+                    console.log(mergedArray)
                     const check = this.convertArrayFlatToTree(mergedArray);
                     this.setState({dataTree:check,isLoading:false, loadingTitle:""});
                   }
-                  
+
                 }
               }else{
                 this.setState({isLoading:false, loadingTitle:""})
-               
+
               }
             });
           });
@@ -316,7 +319,7 @@ class Diagram extends Component {
 
   componentDidMount() {
     this.fetchNow();
-    
+
   }
   handleZoom(e) {
     this.setState({isLoading:true},()=>{
@@ -342,7 +345,7 @@ class Diagram extends Component {
       }, 10);
       // this.setState({ timer: newTimer });
     })
-    
+
   }
 
   handleCloseModal(e=null,callback=null){
@@ -365,7 +368,7 @@ class Diagram extends Component {
         })
       },50)
     })
-    
+
   }
 
   render() {
@@ -374,7 +377,8 @@ class Diagram extends Component {
       overflow-x: scroll;
       padding-bottom: 20px;
     `;
-
+    console.log(this.state.dataTree)
+    console.log(this.state.currentNode)
     return (
       <React.Fragment>
         <Helmet title={"Chatbot - " + process.env.REACT_APP_WEB_NAME} />
@@ -444,7 +448,7 @@ class Diagram extends Component {
                     </Tree>
                   </StyledNodeWrap>
                   }
-                  
+
                 </div>
               </div>
             </div>
@@ -477,7 +481,7 @@ class Diagram extends Component {
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-               
+
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="modal-body">

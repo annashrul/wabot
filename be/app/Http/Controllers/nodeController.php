@@ -15,7 +15,7 @@ class nodeController extends Controller
             $node = node::find($request->id);
             $node->response = is_null($request->response) ? $node->response : $request->response;
             $node->title = is_null($request->title) ? $node->title : $request->title;
-           
+
             if((path::where('id', $request->id_path)->count()) > 0){
                 $path = path::find($request->id_path);
                 $path->title = empty ($request->title) ? $path->title : $request->title;
@@ -31,7 +31,7 @@ class nodeController extends Controller
                     "status" => 200,
                     "message" => "Rule not found",
                     "data" => []
-                ], 200);            
+                ], 200);
             }
             // return response()->json([
             //     "status" => 200,
@@ -43,7 +43,7 @@ class nodeController extends Controller
                 "status" => 200,
                 "message" => "Node not found",
                 "data" => []
-            ], 200);   
+            ], 200);
         }
     }
     public function createNodeFe(Request $request){
@@ -102,7 +102,7 @@ class nodeController extends Controller
         }
     }
 
-   
+
 
     public function getNode()
     {
@@ -125,11 +125,11 @@ class nodeController extends Controller
     public function getNodeById($id)
     {
         if((node::where('id', $id)->count())>0){
-            $node = node::where('id', $id)->get();               
-            
+            $node = node::where('id', $id)->get();
+
             return response()->json([
                 "status" => 200,
-                "message" => "Succeess",            
+                "message" => "Succeess",
                 "data" => $node,
             ], 200);
         }else{
@@ -145,7 +145,7 @@ class nodeController extends Controller
     public function updateNode(Request $request)
     {
         if((node::where('id', $request->id_node)->count()) > 0){
-            
+
             $node = node::find($request->id_node);
             $node->response = is_null($request->response) ? $node->response : $request->response;
             $node->title = is_null($request->title) ? $node->title : $request->title;
@@ -161,7 +161,7 @@ class nodeController extends Controller
                 "status" => 200,
                 "message" => "Node not found",
                 "data" => []
-            ], 200);            
+            ], 200);
         }
     }
 
@@ -169,7 +169,7 @@ class nodeController extends Controller
     {
         if((node::where('id', $request->id_node)->count())>0){
             $node = node::find($request->id_node);
-            $node->delete();                           
+            $node->delete();
             return response()->json([
               "status" => 200,
               "message" => "Records deleted",

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="pesanku@localhost">
-  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.4">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.41">
     <root id="1"/>
     <database id="2" parent="1" name="pesanku">
-      <ObjectId>17233</ObjectId>
       <Current>1</Current>
-      <Visible>1</Visible>
+      <ObjectId>17233</ObjectId>
     </database>
     <database id="3" parent="1" name="postgres">
       <ObjectId>13012</ObjectId>
@@ -14,9 +13,8 @@
       <ObjectId>16393</ObjectId>
     </database>
     <schema id="5" parent="2" name="public">
-      <ObjectId>2200</ObjectId>
       <Current>1</Current>
-      <Visible>1</Visible>
+      <ObjectId>2200</ObjectId>
     </schema>
     <schema id="6" parent="2" name="pg_catalog">
       <ObjectId>11</ObjectId>
